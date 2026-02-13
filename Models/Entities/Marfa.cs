@@ -24,6 +24,6 @@
         //nav
 
         public virtual Depozit Depozit { get; set; }
-        public virtual ICollection<Tranzactie> Tranzactii { get; set; }
+        public virtual ICollection<Tranzactii> Tranzactii { get; set; }
     }
 }

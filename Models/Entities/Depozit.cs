@@ -18,7 +18,7 @@
         public virtual Companie Companie { get; set; }
         public virtual ICollection<User> Utilizatori { get; set; }
         public virtual ICollection<Marfa> Marfuri { get; set; }
-        public virtual ICollection<Tranzactie> TranzactiiSursa { get; set; }
-        public virtual ICollection<Tranzactie> TranzactiiDestinatie { get; set; }
+        public virtual ICollection<Tranzactii> TranzactiiSursa { get; set; }
+        public virtual ICollection<Tranzactii> TranzactiiDestinatie { get; set; }
     }
 }

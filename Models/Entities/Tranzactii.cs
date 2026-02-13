@@ -12,7 +12,7 @@
         public int UserId { get; set; }
         public DateTime DataTranzactie { get; set; }
         public string Observatii { get; set; }
-        public decimal ValoareToatala { get; set; }
+        public decimal ValoareTotala { get; set; }
 
         //nav
         public virtual Marfa Marfa { get; set; }
