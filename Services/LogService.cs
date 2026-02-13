@@ -1,8 +1,7 @@
-﻿using Proiect_ASPDOTNET.Data;
-using Proiect_ASPDOTNET.Models.Entities;
+﻿using Proiect_ASPDOTNET.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DEPO.Services
+namespace Proiect_ASPDOTNET.Services
 {
     public interface ILogService
     {
