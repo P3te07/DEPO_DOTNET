@@ -10,6 +10,13 @@
     <Folder Include="Data\Migrations\" />
     <Folder Include="Models\dto\" />
     <Folder Include="Repositories\" />
+    <Folder Include="Views\Dashboard\" />
+    <Folder Include="Views\Companie\" />
+    <Folder Include="Views\Depozit\" />
+    <Folder Include="Views\Marfa\" />
+    <Folder Include="Views\Rapoarte\" />
+    <Folder Include="Views\User\" />
+    <Folder Include="Views\Tranzactie\" />
   </ItemGroup>
 
   <ItemGroup>
