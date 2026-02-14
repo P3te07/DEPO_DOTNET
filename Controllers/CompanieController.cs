@@ -54,7 +54,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 Telefon = model.Telefon,
                 Email = model.Email,
                 DataInregistrare = DateTime.Now,
-                Activa = true
+                Active = true
             };
 
             _context.Companii.Add(companie);

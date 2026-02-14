@@ -23,7 +23,7 @@
 
     public enum TipTranzactie
     {
-        Intare = 1,
+        Intrare = 1,
         Iesire = 2,
         Transfer = 3
     }
