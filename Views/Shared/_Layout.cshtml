@@ -4,10 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DEPO</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Bootstrap CSS - Version mai veche, mai stabila -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             --primary-color: #2c3e50;
             --secondary-color: #3498db;
@@ -15,91 +25,317 @@
             --danger-color: #e74c3c;
             --warning-color: #f39c12;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            background-color: #f8f9fa !important;
+            margin: 0 !important;
+            padding: 0 !important;
         }
-        
+
         .navbar-custom {
-            background-color: var(--primary-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            background-color: var(--primary-color) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1) !important;
+            padding: 15px 0 !important;
         }
-        
-        .navbar-custom .navbar-brand {
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.5rem;
+
+            .navbar-custom .navbar-brand {
+                color: #fff !important;
+                font-weight: bold !important;
+                font-size: 1.8rem !important;
+            }
+
+                .navbar-custom .navbar-brand:hover {
+                    color: #ecf0f1 !important;
+                }
+
+            .navbar-custom .nav-link {
+                color: #ecf0f1 !important;
+                transition: color 0.3s !important;
+                font-size: 1rem !important;
+            }
+
+                .navbar-custom .nav-link:hover {
+                    color: var(--secondary-color) !important;
+                }
+
+            .navbar-custom .dropdown-menu {
+                background-color: white !important;
+            }
+
+            .navbar-custom .dropdown-item {
+                color: #333 !important;
+            }
+
+                .navbar-custom .dropdown-item:hover {
+                    background-color: #f8f9fa !important;
+                    color: var(--secondary-color) !important;
+                }
+
+        .card {
+            border: none !important;
+            border-radius: 10px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1) !important;
+            margin-bottom: 20px !important;
+            transition: transform 0.2s, box-shadow 0.2s !important;
+            background-color: white !important;
         }
-        
-        .navbar-custom .nav-link {
-            color: #ecf0f1 !important;
-            transition: color 0.3s;
+
+            .card:hover {
+                transform: translateY(-2px) !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,.15) !important;
+            }
+
+        .card-header {
+            background-color: var(--primary-color) !important;
+            color: white !important;
+            border-radius: 10px 10px 0 0 !important;
+            font-weight: 600 !important;
+            padding: 15px 20px !important;
+            border: none !important;
         }
-        
-        .navbar-custom .nav-link:hover {
+
+        .card-body {
+            padding: 20px !important;
+        }
+
+        .btn {
+            transition: all 0.3s ease !important;
+            border-radius: 5px !important;
+            padding: 10px 20px !important;
+            font-weight: 500 !important;
+        }
+
+            .btn:hover {
+                transform: translateY(-1px) !important;
+                box-shadow: 0 2px 5px rgba(0,0,0,.15) !important;
+            }
+
+        .btn-primary {
+            background-color: var(--secondary-color) !important;
+            border-color: var(--secondary-color) !important;
+            color: white !important;
+        }
+
+            .btn-primary:hover {
+                background-color: #2980b9 !important;
+                border-color: #2980b9 !important;
+            }
+
+        .btn-success {
+            background-color: var(--success-color) !important;
+            border-color: var(--success-color) !important;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color) !important;
+            border-color: var(--warning-color) !important;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color) !important;
+            border-color: var(--danger-color) !important;
+        }
+
+        .btn-info {
+            background-color: #3498db !important;
+            border-color: #3498db !important;
+            color: white !important;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6 !important;
+            border-color: #95a5a6 !important;
+        }
+
+        .sidebar {
+            background-color: #fff !important;
+            min-height: calc(100vh - 56px) !important;
+            box-shadow: 2px 0 5px rgba(0,0,0,.05) !important;
+            padding-top: 20px !important;
+        }
+
+            .sidebar .nav-link {
+                color: #333 !important;
+                padding: 12px 20px !important;
+                border-left: 3px solid transparent !important;
+                transition: all 0.3s !important;
+                margin-bottom: 5px !important;
+                display: block !important;
+                text-decoration: none !important;
+            }
+
+                .sidebar .nav-link:hover,
+                .sidebar .nav-link.active {
+                    background-color: #f8f9fa !important;
+                    border-left-color: var(--secondary-color) !important;
+                    color: var(--secondary-color) !important;
+                }
+
+                .sidebar .nav-link i {
+                    width: 20px !important;
+                    text-align: center !important;
+                }
+
+        .content-wrapper {
+            padding: 30px !important;
+            background-color: #f8f9fa !important;
+        }
+
+        .alert {
+            border-radius: 8px !important;
+            border-left: 4px solid !important;
+            padding: 15px !important;
+        }
+
+        .alert-success {
+            border-left-color: var(--success-color) !important;
+            background-color: #d4edda !important;
+            color: #155724 !important;
+        }
+
+        .alert-danger {
+            border-left-color: var(--danger-color) !important;
+            background-color: #f8d7da !important;
+            color: #721c24 !important;
+        }
+
+        .alert-info {
+            border-left-color: #3498db !important;
+            background-color: #d1ecf1 !important;
+            color: #0c5460 !important;
+        }
+
+        .alert-warning {
+            border-left-color: var(--warning-color) !important;
+            background-color: #fff3cd !important;
+            color: #856404 !important;
+        }
+
+        .table {
+            background-color: white !important;
+            border-radius: 5px !important;
+        }
+
+            .table thead {
+                background-color: #f8f9fa !important;
+            }
+
+                .table thead th {
+                    border-bottom: 2px solid #dee2e6 !important;
+                    padding: 12px !important;
+                    font-weight: 600 !important;
+                    color: #333 !important;
+                }
+
+            .table tbody td {
+                padding: 12px !important;
+                vertical-align: middle !important;
+            }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.05) !important;
+        }
+
+        .badge {
+            padding: 6px 12px !important;
+            border-radius: 20px !important;
+            font-weight: 500 !important;
+            font-size: 0.85rem !important;
+        }
+
+        .bg-primary {
+            background-color: var(--secondary-color) !important;
+        }
+
+        .bg-success {
+            background-color: var(--success-color) !important;
+        }
+
+        .bg-danger {
+            background-color: var(--danger-color) !important;
+        }
+
+        .bg-warning {
+            background-color: var(--warning-color) !important;
+        }
+
+        .bg-info {
+            background-color: #3498db !important;
+        }
+
+        .bg-secondary {
+            background-color: #95a5a6 !important;
+        }
+
+        .text-primary {
             color: var(--secondary-color) !important;
         }
-        
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.1);
-            margin-bottom: 20px;
+
+        .text-success {
+            color: var(--success-color) !important;
         }
-        
-        .card-header {
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 10px 10px 0 0 !important;
-            font-weight: 600;
+
+        .text-danger {
+            color: var(--danger-color) !important;
         }
-        
-        .btn-primary {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+
+        .text-warning {
+            color: var(--warning-color) !important;
         }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
+
+        .text-muted {
+            color: #6c757d !important;
         }
-        
-        .sidebar {
-            background-color: #fff;
-            min-height: calc(100vh - 56px);
-            box-shadow: 2px 0 5px rgba(0,0,0,.05);
+
+        .user-info {
+            border-bottom: 1px solid #dee2e6 !important;
+            background-color: #f8f9fa !important;
+            border-radius: 8px !important;
         }
-        
-        .sidebar .nav-link {
-            color: #333;
-            padding: 12px 20px;
-            border-left: 3px solid transparent;
-            transition: all 0.3s;
+
+        .opacity-50 {
+            opacity: 0.5 !important;
         }
-        
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            background-color: #f8f9fa;
-            border-left-color: var(--secondary-color);
-            color: var(--secondary-color);
+
+        .text-bronze {
+            color: #cd7f32 !important;
         }
-        
-        .content-wrapper {
-            padding: 30px;
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #2c3e50 !important;
+            font-weight: 600 !important;
         }
-        
-        .alert {
-            border-radius: 8px;
+
+        .text-white {
+            color: white !important;
         }
-        
-        .table {
-            background-color: white;
+
+        .form-control, .form-select {
+            border: 1px solid #ced4da !important;
+            border-radius: 5px !important;
+            padding: 10px !important;
         }
-        
-        .badge {
-            padding: 6px 12px;
-            border-radius: 20px;
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--secondary-color) !important;
+                box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25) !important;
+            }
+
+        .form-label {
+            font-weight: 500 !important;
+            color: #333 !important;
+            margin-bottom: 8px !important;
+        }
+
+        @@media (max-width: 768px) {
+            .sidebar {
+                display: none !important;
+            }
+
+            .content-wrapper {
+                padding: 15px !important;
+            }
         }
     </style>
 </head>
@@ -109,7 +345,7 @@
             <a class="navbar-brand" href="/">
                 <i class="fas fa-warehouse me-2"></i>DEPO
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="background-color: #fff;">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -126,9 +362,11 @@
                                 <i class="fas fa-user me-1"></i>Profil
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/Auth/Logout">
-                                    <i class="fas fa-sign-out-alt me-1"></i>Deconectare
-                                </a></li>
+                                <li>
+                                    <a class="dropdown-item" href="/Auth/Logout">
+                                        <i class="fas fa-sign-out-alt me-1"></i>Deconectare
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     }
@@ -173,9 +411,44 @@
         </div>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <!-- Custom JS -->
+    <script>
+        console.log('Scripts loaded!');
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+
+        // Set active navigation item
+        function setActiveNavItem() {
+            var currentPath = window.location.pathname;
+            var navLinks = document.querySelectorAll('.sidebar .nav-link');
+
+            navLinks.forEach(function(link) {
+                var href = link.getAttribute('href');
+                if (currentPath.includes(href) && href !== '/') {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded!');
+            setActiveNavItem();
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

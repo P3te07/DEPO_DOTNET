@@ -1,0 +1,199 @@
+﻿@model Proiect_ASPDOTNET.Models.Entities.User
+
+@{
+    ViewData["Title"] = "Adauga Utilizator";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-user-plus me-2"></i>Adauga Utilizator Nou</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/User">Utilizatori</a></li>
+            <li class="breadcrumb-item active">Adauga Utilizator</li>
+        </ol>
+    </nav>
+</div>
+
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-user me-2"></i>Informatii Personale
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="NumeComplet" class="form-label"></label>
+                        <input asp-for="NumeComplet" class="form-control" placeholder="Ex: Ion Popescu" />
+                        <span asp-validation-for="NumeComplet" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Username" class="form-label"></label>
+                            <input asp-for="Username" class="form-control" placeholder="Ex: ion.popescu" />
+                            <span asp-validation-for="Username" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" type="email" placeholder="ion.popescu@email.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Parola</label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Minim 6 caractere" />
+                        <small class="text-muted">Parola trebuie sa contina minim 6 caractere</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-briefcase me-2"></i>Rol si Atribuire
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Rol" class="form-label"></label>
+                        <select asp-for="Rol" class="form-select" id="rolSelect">
+                            <option value="">Selecteaza rolul...</option>
+                            <option value="1">SuperAdmin - Acces complet sistem</option>
+                            <option value="2">Director Companie - Gestionare companie</option>
+                            <option value="3">Responsabil Depozit - Gestionare depozit</option>
+                            <option value="4">Muncitor - Executie sarcini</option>
+                        </select>
+                        <span asp-validation-for="Rol" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3" id="companieDiv">
+                        <label asp-for="CompanieId" class="form-label"></label>
+                        <select asp-for="CompanieId" class="form-select" asp-items="ViewBag.Companii" id="companieSelect">
+                            <option value="">Selecteaza compania...</option>
+                        </select>
+                        <span asp-validation-for="CompanieId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3" id="depozitDiv">
+                        <label asp-for="DepozitId" class="form-label"></label>
+                        <select asp-for="DepozitId" class="form-select" asp-items="ViewBag.Depozite" id="depozitSelect">
+                            <option value="">Selecteaza depozitul...</option>
+                        </select>
+                        <span asp-validation-for="DepozitId" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-2"></i>Informatii Rol
+                </div>
+                <div class="card-body">
+                    <div id="rol-info-superadmin" class="rol-info d-none">
+                        <i class="fas fa-crown text-danger fa-2x mb-2"></i>
+                        <h6 class="text-danger">SuperAdmin</h6>
+                        <p class="small mb-0">Acces complet la toate functiile sistemului. Poate gestiona companii, depozite si utilizatori.</p>
+                    </div>
+                    <div id="rol-info-director" class="rol-info d-none">
+                        <i class="fas fa-user-tie text-primary fa-2x mb-2"></i>
+                        <h6 class="text-primary">Director Companie</h6>
+                        <p class="small mb-0">Gestioneaza depozitele si utilizatorii companiei sale. Poate vizualiza statistici si rapoarte.</p>
+                    </div>
+                    <div id="rol-info-responsabil" class="rol-info d-none">
+                        <i class="fas fa-user-cog text-info fa-2x mb-2"></i>
+                        <h6 class="text-info">Responsabil Depozit</h6>
+                        <p class="small mb-0">Gestioneaza inventarul si tranzactiile pentru depozitul sau. Poate adauga marfuri si gestiona muncitorii.</p>
+                    </div>
+                    <div id="rol-info-muncitor" class="rol-info d-none">
+                        <i class="fas fa-hard-hat text-secondary fa-2x mb-2"></i>
+                        <h6 class="text-secondary">Muncitor</h6>
+                        <p class="small mb-0">Executa sarcinile atribuite. Poate inregistra tranzactii si vizualiza propriile sarcini.</p>
+                    </div>
+                    <div id="rol-info-default">
+                        <i class="fas fa-question-circle text-muted fa-2x mb-2"></i>
+                        <p class="small text-muted mb-0">Selecteaza un rol pentru a vedea detalii.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 bg-light">
+                <div class="card-body">
+                    <h6><i class="fas fa-key me-2"></i>Generare ID</h6>
+                    <p class="small mb-0">ID-ul utilizatorului va fi generat automat la salvare in format: USR[Data][Cod]</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salveaza Utilizator
+                        </button>
+                        <a href="/User" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Anuleaza
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            function updateRolInfo() {
+                var rol = $('#rolSelect').val();
+                $('.rol-info').addClass('d-none');
+                $('#rol-info-default').addClass('d-none');
+
+                $('#companieDiv').hide();
+                $('#depozitDiv').hide();
+
+                if (rol == '1') { // SuperAdmin
+                    $('#rol-info-superadmin').removeClass('d-none');
+                } else if (rol == '2') { // Director
+                    $('#rol-info-director').removeClass('d-none');
+                    $('#companieDiv').show();
+                } else if (rol == '3') { // Responsabil
+                    $('#rol-info-responsabil').removeClass('d-none');
+                    $('#companieDiv').show();
+                    $('#depozitDiv').show();
+                } else if (rol == '4') { // Muncitor
+                    $('#rol-info-muncitor').removeClass('d-none');
+                    $('#companieDiv').show();
+                    $('#depozitDiv').show();
+                } else {
+                    $('#rol-info-default').removeClass('d-none');
+                }
+            }
+
+            $('#rolSelect').change(updateRolInfo);
+
+            // Load depozite when companie changes
+            $('#companieSelect').change(function() {
+                var companieId = $(this).val();
+                if (companieId) {
+                    $.get('/User/GetDepoziteByCompanie?companieId=' + companieId, function(data) {
+                        var select = $('#depozitSelect');
+                        select.empty();
+                        select.append('<option value="">Selecteaza depozitul...</option>');
+                        $.each(data, function(i, depozit) {
+                            select.append($('<option></option>').val(depozit.id).text(depozit.nume));
+                        });
+                    });
+                }
+            });
+
+            updateRolInfo();
+        });
+    </script>
+}

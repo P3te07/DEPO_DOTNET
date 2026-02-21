@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Tranzactii>
+
+@{
+    ViewData["Title"] = "Tranzactii";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2><i class="fas fa-exchange-alt me-2"></i>Tranzactii</h2>
+        <p class="text-muted mb-0">Istoric intrari, iesiri si transferuri</p>
+    </div>
+    <a href="/Tranzactie/Create" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Tranzactie Noua
+    </a>
+</div>
+
+<!-- Filter Section -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Data Start</label>
+                <input type="date" name="dataStart" class="form-control" value="@ViewBag.DataStart?.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Data End</label>
+                <input type="date" name="dataEnd" class="form-control" value="@ViewBag.DataEnd?.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Tip Tranzactie</label>
+                <select name="tip" class="form-select">
+                    <option value="">Toate</option>
+                    <option value="1" selected="@(ViewBag.TipSelectat == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)">Intrare</option>
+                    <option value="2" selected="@(ViewBag.TipSelectat == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)">Iesire</option>
+                    <option value="3" selected="@(ViewBag.TipSelectat == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Transfer)">Transfer</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">&nbsp;</label>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter me-2"></i>Filtreaza
+                    </button>
+                    <a href="/Tranzactie" class="btn btn-secondary">
+                        <i class="fas fa-redo me-2"></i>Reseteaza
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID Tranzactie</th>
+                            <th>Data</th>
+                            <th>Tip</th>
+                            <th>Marfa</th>
+                            <th>Cantitate</th>
+                            <th>Depozit Sursa</th>
+                            <th>Depozit Destinatie</th>
+                            <th>Utilizator</th>
+                            <th>Valoare</th>
+                            <th>Actiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tranzactie in Model)
+                        {
+                            <tr>
+                                <td><code>@tranzactie.TranzactieId</code></td>
+                                <td>@tranzactie.DataTranzactie.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>
+                                    @if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)
+                                    {
+                                        <span class="badge bg-success"><i class="fas fa-arrow-down me-1"></i>Intrare</span>
+                                    }
+                                    else if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)
+                                    {
+                                        <span class="badge bg-warning"><i class="fas fa-arrow-up me-1"></i>Iesire</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info"><i class="fas fa-exchange-alt me-1"></i>Transfer</span>
+                                    }
+                                </td>
+                                <td>
+                                    <strong>@tranzactie.Marfa.Name</strong>
+                                    <br><small class="text-muted">@tranzactie.Marfa.SKU</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary">@tranzactie.Cantitate @tranzactie.Marfa.UnitateMasura</span>
+                                </td>
+                                <td>@(tranzactie.DepozitSursa?.Nume ?? "-")</td>
+                                <td>@(tranzactie.DepozitDestinatie?.Nume ?? "-")</td>
+                                <td>@tranzactie.User.NumeComplet</td>
+                                <td><strong>@tranzactie.ValoareTotala.ToString("N2") RON</strong></td>
+                                <td>
+                                    <a href="/Tranzactie/Details/@tranzactie.Id" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-active">
+                            <td colspan="8" class="text-end"><strong>TOTAL VALOARE:</strong></td>
+                            <td colspan="2">
+                                <strong>@Model.Sum(t => t.ValoareTotala).ToString("N2") RON</strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-exchange-alt fa-4x text-muted mb-3"></i>
+                <h5>Nu exista tranzactii</h5>
+                <p class="text-muted">Inregistreaza prima tranzactie pentru a incepe.</p>
+                <a href="/Tranzactie/Create" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Tranzactie Noua
+                </a>
+            </div>
+        }
+    </div>
+</div>

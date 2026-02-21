@@ -1,0 +1,165 @@
+﻿@model Proiect_ASPDOTNET.Models.Entities.User
+
+@{
+    ViewData["Title"] = "Editeaza Utilizator";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-user-edit me-2"></i>Editeaza Utilizator</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/User">Utilizatori</a></li>
+            <li class="breadcrumb-item active">Editeaza</li>
+        </ol>
+    </nav>
+</div>
+
+<form asp-action="Edit" method="post">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="Username" type="hidden" />
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-user me-2"></i>Informatii Personale
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" value="@Model.Username" disabled />
+                        <small class="text-muted">Username-ul nu poate fi modificat</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NumeComplet" class="form-label"></label>
+                        <input asp-for="NumeComplet" class="form-control" />
+                        <span asp-validation-for="NumeComplet" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" type="email" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Parola Noua</label>
+                        <input type="password" name="newPassword" id="newPassword" class="form-control" placeholder="Lasa gol daca nu doresti sa schimbi parola" />
+                        <small class="text-muted">Completeaza doar daca doresti sa schimbi parola (minim 6 caractere)</small>
+                    </div>
+
+                    <div class="form-check">
+                        <input asp-for="Activ" class="form-check-input" />
+                        <label asp-for="Activ" class="form-check-label"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-briefcase me-2"></i>Rol si Atribuire
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Rol" class="form-label"></label>
+                        <select asp-for="Rol" class="form-select" id="rolSelect">
+                            <option value="1">SuperAdmin</option>
+                            <option value="2">Director Companie</option>
+                            <option value="3">Responsabil Depozit</option>
+                            <option value="4">Muncitor</option>
+                        </select>
+                        <span asp-validation-for="Rol" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3" id="companieDiv">
+                        <label asp-for="CompanieId" class="form-label"></label>
+                        <select asp-for="CompanieId" class="form-select" asp-items="ViewBag.Companii" id="companieSelect">
+                            <option value="">Selecteaza compania...</option>
+                        </select>
+                        <span asp-validation-for="CompanieId" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3" id="depozitDiv">
+                        <label asp-for="DepozitId" class="form-label"></label>
+                        <select asp-for="DepozitId" class="form-select" asp-items="ViewBag.Depozite" id="depozitSelect">
+                            <option value="">Selecteaza depozitul...</option>
+                        </select>
+                        <span asp-validation-for="DepozitId" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-2"></i>Informatii Cont
+                </div>
+                <div class="card-body">
+                    <p class="small mb-2"><strong>ID Utilizator:</strong></p>
+                    <p class="mb-3"><code>@Model.UserId</code></p>
+
+                    <p class="small mb-2"><strong>Data Creare:</strong></p>
+                    <p class="mb-0">@Model.DataCreare.ToString("dd.MM.yyyy HH:mm")</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salveaza Modificari
+                        </button>
+                        <a href="/User" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Inapoi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            function updateRolFields() {
+                var rol = $('#rolSelect').val();
+
+                $('#companieDiv').hide();
+                $('#depozitDiv').hide();
+
+                if (rol == '2') { // Director
+                    $('#companieDiv').show();
+                } else if (rol == '3' || rol == '4') { // Responsabil sau Muncitor
+                    $('#companieDiv').show();
+                    $('#depozitDiv').show();
+                }
+            }
+
+            $('#rolSelect').change(updateRolFields);
+
+            $('#companieSelect').change(function() {
+                var companieId = $(this).val();
+                if (companieId) {
+                    $.get('/User/GetDepoziteByCompanie?companieId=' + companieId, function(data) {
+                        var select = $('#depozitSelect');
+                        select.empty();
+                        select.append('<option value="">Selecteaza depozitul...</option>');
+                        $.each(data, function(i, depozit) {
+                            select.append($('<option></option>').val(depozit.id).text(depozit.nume));
+                        });
+                    });
+                }
+            });
+
+            updateRolFields();
+        });
+    </script>
+}

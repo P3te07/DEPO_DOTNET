@@ -1,0 +1,220 @@
+﻿@model Proiect_ASPDOTNET.Models.Entities.Marfa
+
+@{
+    ViewData["Title"] = "Detalii Marfa";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-box me-2"></i>@Model.Name</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Marfa">Inventar</a></li>
+            <li class="breadcrumb-item active">Detalii</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-info-circle me-2"></i>Informatii Marfa</span>
+                <a href="/Marfa/Edit/@Model.Id" class="btn btn-sm btn-warning">
+                    <i class="fas fa-edit me-1"></i>Editeaza
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">ID Marfa:</div>
+                    <div class="col-md-8"><code>@Model.MarfaId</code></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">SKU:</div>
+                    <div class="col-md-8"><code>@Model.SKU</code></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Nume:</div>
+                    <div class="col-md-8"><strong>@Model.Name</strong></div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Descriere))
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Descriere:</div>
+                        <div class="col-md-8">@Model.Descriere</div>
+                    </div>
+                }
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Depozit:</div>
+                    <div class="col-md-8">
+                        <a href="/Depozit/Details/@Model.Depozit.Id">@Model.Depozit.Nume</a>
+                        <br>
+                        <small class="text-muted">@Model.Depozit.Companie?.Nume</small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Cantitate:</div>
+                    <div class="col-md-8">
+                        <span class="badge bg-info fs-6">@Model.CapacitateCurenta @Model.UnitateMasura</span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Pret Unitar:</div>
+                    <div class="col-md-8">@Model.PretUnitar.ToString("N2") RON</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Valoare Totala:</div>
+                    <div class="col-md-8">
+                        <strong class="text-success">@((Model.CapacitateCurenta * Model.PretUnitar).ToString("N2")) RON</strong>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Localizare:</div>
+                    <div class="col-md-8">
+                        <span class="badge bg-secondary">Zona @Model.Zona</span>
+                        <span class="badge bg-secondary">Etaj @Model.Etaj</span>
+                        <span class="badge bg-secondary">Raft @Model.Raft</span>
+                        <span class="badge bg-secondary">Pozitie @Model.Pozitie</span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Data Adaugare:</div>
+                    <div class="col-md-8">@Model.DataAdaugare.ToString("dd.MM.yyyy HH:mm")</div>
+                </div>
+                @if (Model.DataUltimaModificare.HasValue)
+                {
+                    <div class="row">
+                        <div class="col-md-4 text-muted">Ultima Modificare:</div>
+                        <div class="col-md-8">@Model.DataUltimaModificare.Value.ToString("dd.MM.yyyy HH:mm")</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-history me-2"></i>Istoric Tranzactii (@(Model.Tranzactii?.Count ?? 0))
+            </div>
+            <div class="card-body">
+                @if (Model.Tranzactii?.Any() == true)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Tip</th>
+                                    <th>Cantitate</th>
+                                    <th>Depozit Sursa</th>
+                                    <th>Depozit Destinatie</th>
+                                    <th>Utilizator</th>
+                                    <th>Valoare</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var tranzactie in Model.Tranzactii)
+                                {
+                                    <tr>
+                                        <td>@tranzactie.DataTranzactie.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>
+                                            @if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)
+                                            {
+                                                <span class="badge bg-success">Intrare</span>
+                                            }
+                                            else if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)
+                                            {
+                                                <span class="badge bg-warning">Iesire</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-info">Transfer</span>
+                                            }
+                                        </td>
+                                        <td>@tranzactie.Cantitate</td>
+                                        <td>@(tranzactie.DepozitSursa?.Nume ?? "-")</td>
+                                        <td>@(tranzactie.DepozitDestinatie?.Nume ?? "-")</td>
+                                        <td>@tranzactie.User?.NumeComplet</td>
+                                        <td>@tranzactie.ValoareTotala.ToString("N2") RON</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Nu exista tranzactii pentru aceasta marfa.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-chart-line me-2"></i>Statistici
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <small class="text-muted">Stoc Curent:</small>
+                    <div class="h3 text-primary mb-0">
+                        @Model.CapacitateCurenta <small>@Model.UnitateMasura</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <small class="text-muted">Valoare Stoc:</small>
+                    <div class="h4 text-success mb-0">
+                        @((Model.CapacitateCurenta * Model.PretUnitar).ToString("N2")) RON
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <small class="text-muted">Total Tranzactii:</small>
+                    <div class="h5 mb-0">
+                        @(Model.Tranzactii?.Count ?? 0)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-map-marker-alt me-2"></i>Localizare
+            </div>
+            <div class="card-body">
+                <div class="text-center">
+                    <div class="mb-2">
+                        <i class="fas fa-warehouse fa-3x text-primary"></i>
+                    </div>
+                    <h5>@Model.Depozit.Nume</h5>
+                    <p class="mb-1">Zona <strong>@Model.Zona</strong></p>
+                    <p class="mb-1">Etaj <strong>@Model.Etaj</strong></p>
+                    <p class="mb-0">Raft <strong>@Model.Raft-@Model.Pozitie</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-cog me-2"></i>Actiuni
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/Marfa/Edit/@Model.Id" class="btn btn-warning">
+                        <i class="fas fa-edit me-2"></i>Editeaza
+                    </a>
+                    <a href="/Tranzactie/Create?marfaId=@Model.Id" class="btn btn-success">
+                        <i class="fas fa-arrow-down me-2"></i>Intrare Marfa
+                    </a>
+                    <a href="/Tranzactie/Create?marfaId=@Model.Id" class="btn btn-primary">
+                        <i class="fas fa-arrow-up me-2"></i>Iesire Marfa
+                    </a>
+                    <a href="/Marfa" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Inapoi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

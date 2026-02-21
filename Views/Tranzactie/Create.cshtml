@@ -1,0 +1,235 @@
+﻿@model Proiect_ASPDOTNET.Models.ViewModels.TranzactieViewModel
+
+@{
+    ViewData["Title"] = "Tranzactie Noua";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-plus-circle me-2"></i>Inregistrare Tranzactie Noua</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Tranzactie">Tranzactii</a></li>
+            <li class="breadcrumb-item active">Tranzactie Noua</li>
+        </ol>
+    </nav>
+</div>
+
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-2"></i>Detalii Tranzactie
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Tip" class="form-label"></label>
+                        <select asp-for="Tip" class="form-select" id="tipTranzactie">
+                            <option value="">Selecteaza tipul...</option>
+                            <option value="1">Intrare - Adaugare stoc in depozit</option>
+                            <option value="2">Iesire - Scoatere stoc din depozit</option>
+                            <option value="3">Transfer - Mutare intre depozite</option>
+                        </select>
+                        <span asp-validation-for="Tip" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="MarfaId" class="form-label"></label>
+                        <select asp-for="MarfaId" class="form-select" asp-items="ViewBag.Marfuri" id="marfaSelect">
+                            <option value="">Selecteaza marfa...</option>
+                        </select>
+                        <span asp-validation-for="MarfaId" class="text-danger small"></span>
+                    </div>
+
+                    <div id="marfaInfo" class="alert alert-info d-none">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Nume:</strong> <span id="info-nume"></span><br>
+                                <strong>SKU:</strong> <span id="info-sku"></span><br>
+                                <strong>Depozit:</strong> <span id="info-depozit"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Stoc Disponibil:</strong> <span id="info-stoc" class="badge bg-primary"></span><br>
+                                <strong>Pret Unitar:</strong> <span id="info-pret"></span> RON
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Cantitate" class="form-label"></label>
+                        <input asp-for="Cantitate" class="form-control" type="number" min="1" id="cantitateInput" />
+                        <span asp-validation-for="Cantitate" class="text-danger small"></span>
+                        <small class="text-muted">Introduceti cantitatea pentru aceasta tranzactie</small>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3" id="depozitSursaDiv">
+                            <label asp-for="DepozitSursaId" class="form-label"></label>
+                            <select asp-for="DepozitSursaId" class="form-select" asp-items="ViewBag.Depozite">
+                                <option value="">Selecteaza depozit sursa...</option>
+                            </select>
+                            <span asp-validation-for="DepozitSursaId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3" id="depozitDestinatieDiv">
+                            <label asp-for="DepozitDestinatieId" class="form-label"></label>
+                            <select asp-for="DepozitDestinatieId" class="form-select" asp-items="ViewBag.Depozite">
+                                <option value="">Selecteaza depozit destinatie...</option>
+                            </select>
+                            <span asp-validation-for="DepozitDestinatieId" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Observatii" class="form-label"></label>
+                        <textarea asp-for="Observatii" class="form-control" rows="3" placeholder="Observatii optionale..."></textarea>
+                        <span asp-validation-for="Observatii" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-2"></i>Tip Tranzactie
+                </div>
+                <div class="card-body">
+                    <div id="help-intrare" class="help-text d-none">
+                        <i class="fas fa-arrow-down text-success fa-2x mb-2"></i>
+                        <h6 class="text-success">Intrare</h6>
+                        <p class="small mb-0">Adaugare marfa noua in depozit. Creste stocul disponibil.</p>
+                    </div>
+                    <div id="help-iesire" class="help-text d-none">
+                        <i class="fas fa-arrow-up text-warning fa-2x mb-2"></i>
+                        <h6 class="text-warning">Iesire</h6>
+                        <p class="small mb-0">Scoatere marfa din depozit. Scade stocul disponibil.</p>
+                    </div>
+                    <div id="help-transfer" class="help-text d-none">
+                        <i class="fas fa-exchange-alt text-info fa-2x mb-2"></i>
+                        <h6 class="text-info">Transfer</h6>
+                        <p class="small mb-0">Mutare marfa dintr-un depozit in altul. Necesita depozit sursa si destinatie.</p>
+                    </div>
+                    <div id="help-default">
+                        <i class="fas fa-question-circle text-muted fa-2x mb-2"></i>
+                        <p class="small text-muted mb-0">Selecteaza tipul tranzactiei pentru a vedea detalii.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-calculator me-2"></i>Valoare Tranzactie
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <small class="text-muted">Cantitate:</small>
+                        <div><strong id="calc-cantitate">0</strong> <span id="calc-um">-</span></div>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Pret Unitar:</small>
+                        <div><strong id="calc-pret-unitar">0.00</strong> RON</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <small class="text-muted">Valoare Totala:</small>
+                        <div class="h4 text-primary mb-0">
+                            <strong id="calc-valoare-totala">0.00</strong> RON
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salveaza Tranzactie
+                        </button>
+                        <a href="/Tranzactie" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Anuleaza
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            var marfaData = null;
+
+            // Handle transaction type change
+            $('#tipTranzactie').change(function() {
+                var tip = $(this).val();
+                $('.help-text').addClass('d-none');
+                $('#help-default').addClass('d-none');
+
+                $('#depozitSursaDiv').hide();
+                $('#depozitDestinatieDiv').hide();
+
+                if (tip == '1') { // Intrare
+                    $('#help-intrare').removeClass('d-none');
+                    $('#depozitDestinatieDiv').show();
+                } else if (tip == '2') { // Iesire
+                    $('#help-iesire').removeClass('d-none');
+                    $('#depozitSursaDiv').show();
+                } else if (tip == '3') { // Transfer
+                    $('#help-transfer').removeClass('d-none');
+                    $('#depozitSursaDiv').show();
+                    $('#depozitDestinatieDiv').show();
+                } else {
+                    $('#help-default').removeClass('d-none');
+                }
+            });
+
+            // Load marfa details
+            $('#marfaSelect').change(function() {
+                var marfaId = $(this).val();
+                if (marfaId) {
+                    $.get('/Tranzactie/GetMarfaDetails?marfaId=' + marfaId, function(data) {
+                        if (data.success) {
+                            marfaData = data;
+                            $('#info-nume').text(data.nume);
+                            $('#info-sku').text(data.sku);
+                            $('#info-stoc').text(data.stocDisponibil + ' ' + data.unitateMasura);
+                            $('#info-pret').text(data.pretUnitar.toFixed(2));
+                            $('#info-depozit').text(data.depozitNume);
+                            $('#marfaInfo').removeClass('d-none');
+
+                            updateCalculator();
+                        }
+                    });
+                } else {
+                    $('#marfaInfo').addClass('d-none');
+                    marfaData = null;
+                }
+            });
+
+            $('#cantitateInput').on('input', updateCalculator);
+
+            function updateCalculator() {
+                if (!marfaData) return;
+
+                var cantitate = parseFloat($('#cantitateInput').val()) || 0;
+                var pretUnitar = marfaData.pretUnitar;
+                var valoareTotala = cantitate * pretUnitar;
+
+                $('#calc-cantitate').text(cantitate);
+                $('#calc-um').text(marfaData.unitateMasura);
+                $('#calc-pret-unitar').text(pretUnitar.toFixed(2));
+                $('#calc-valoare-totala').text(valoareTotala.toFixed(2));
+            }
+
+            // Initialize
+            $('#tipTranzactie').trigger('change');
+        });
+    </script>
+}

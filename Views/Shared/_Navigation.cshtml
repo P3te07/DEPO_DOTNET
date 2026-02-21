@@ -5,9 +5,10 @@
     {
         var userData = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(userJson);
         var rol = userData["Rol"].GetString();
+        var numeComplet = userData["NumeComplet"].GetString();
 
         <div class="user-info p-3 mb-3 bg-light rounded">
-            <h6 class="mb-1">@userData["NumeComplet"].GetString()</h6>
+            <h6 class="mb-1">@numeComplet</h6>
             <small class="text-muted">@rol</small>
         </div>
 

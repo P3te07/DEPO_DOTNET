@@ -1,0 +1,209 @@
+﻿@model Proiect_ASPDOTNET.Models.ViewModels.MarfaViewModel
+
+@{
+    ViewData["Title"] = "Adauga Marfa";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-plus-circle me-2"></i>Adauga Marfa Noua</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Marfa">Inventar</a></li>
+            <li class="breadcrumb-item active">Adauga Marfa</li>
+        </ol>
+    </nav>
+</div>
+
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-2"></i>Informatii Generale
+                </div>
+                <div class="card-body">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label asp-for="Nume" class="form-label"></label>
+                            <input asp-for="Nume" class="form-control" placeholder="Ex: Laptop Dell Latitude 5520" />
+                            <span asp-validation-for="Nume" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="SKU" class="form-label"></label>
+                            <input asp-for="SKU" class="form-control" placeholder="Ex: DELL-LAT-5520" />
+                            <span asp-validation-for="SKU" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Descriere" class="form-label"></label>
+                        <textarea asp-for="Descriere" class="form-control" rows="3" placeholder="Descriere detaliata..."></textarea>
+                        <span asp-validation-for="Descriere" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="CantitateCurenta" class="form-label"></label>
+                            <input asp-for="CantitateCurenta" class="form-control" type="number" min="0" />
+                            <span asp-validation-for="CantitateCurenta" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="UnitateMasura" class="form-label"></label>
+                            <select asp-for="UnitateMasura" class="form-select">
+                                <option value="">Selecteaza...</option>
+                                <option value="buc">Bucati</option>
+                                <option value="kg">Kilograme</option>
+                                <option value="l">Litri</option>
+                                <option value="m">Metri</option>
+                                <option value="m2">Metri Patrati</option>
+                                <option value="m3">Metri Cubi</option>
+                                <option value="set">Seturi</option>
+                            </select>
+                            <span asp-validation-for="UnitateMasura" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="PretUnitar" class="form-label"></label>
+                            <input asp-for="PretUnitar" class="form-control" type="number" step="0.01" min="0" />
+                            <span asp-validation-for="PretUnitar" class="text-danger small"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-map-marker-alt me-2"></i>Localizare in Depozit
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Zona" class="form-label"></label>
+                            <select asp-for="Zona" class="form-select">
+                                <option value="A">Zona A</option>
+                                <option value="B">Zona B</option>
+                                <option value="C">Zona C</option>
+                                <option value="D">Zona D</option>
+                            </select>
+                            <span asp-validation-for="Zona" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Etaj" class="form-label"></label>
+                            <input asp-for="Etaj" class="form-control" type="number" min="1" max="10" />
+                            <span asp-validation-for="Etaj" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Raft" class="form-label"></label>
+                            <input asp-for="Raft" class="form-control" placeholder="Ex: R5" />
+                            <span asp-validation-for="Raft" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Pozitie" class="form-label"></label>
+                            <input asp-for="Pozitie" class="form-control" placeholder="Ex: P3" />
+                            <span asp-validation-for="Pozitie" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Localizare completa:</strong>
+                        Zona <span id="preview-zona">A</span>,
+                        Etaj <span id="preview-etaj">1</span>,
+                        Raft <span id="preview-raft">-</span>,
+                        Pozitie <span id="preview-pozitie">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            @if (ViewBag.DepozitId != null)
+            {
+                <input type="hidden" asp-for="DepozitId" value="@ViewBag.DepozitId" />
+                <div class="card mb-3 bg-light">
+                    <div class="card-body">
+                        <h6><i class="fas fa-warehouse me-2"></i>Depozit</h6>
+                        <p class="mb-0">@ViewBag.DepozitNume</p>
+                    </div>
+                </div>
+            }
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-calculator me-2"></i>Calcul Valoare
+                </div>
+                <div class="card-body">
+                    <div class="mb-2">
+                        <small class="text-muted">Cantitate:</small>
+                        <div><strong id="calc-cantitate">0</strong> <span id="calc-um">-</span></div>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted">Pret Unitar:</small>
+                        <div><strong id="calc-pret">0.00</strong> RON</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <small class="text-muted">Valoare Totala:</small>
+                        <div class="h4 text-primary mb-0">
+                            <strong id="calc-total">0.00</strong> RON
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salveaza Marfa
+                        </button>
+                        <a href="/Marfa" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Anuleaza
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function() {
+            function updateCalculator() {
+                var cantitate = parseFloat($('#CantitateCurenta').val()) || 0;
+                var pret = parseFloat($('#PretUnitar').val()) || 0;
+                var um = $('#UnitateMasura').val() || '-';
+                var total = cantitate * pret;
+
+                $('#calc-cantitate').text(cantitate);
+                $('#calc-um').text(um);
+                $('#calc-pret').text(pret.toFixed(2));
+                $('#calc-total').text(total.toFixed(2));
+            }
+
+            function updateLocationPreview() {
+                $('#preview-zona').text($('#Zona').val() || '-');
+                $('#preview-etaj').text($('#Etaj').val() || '-');
+                $('#preview-raft').text($('#Raft').val() || '-');
+                $('#preview-pozitie').text($('#Pozitie').val() || '-');
+            }
+
+            $('#CantitateCurenta, #PretUnitar, #UnitateMasura').on('input change', updateCalculator);
+            $('#Zona, #Etaj, #Raft, #Pozitie').on('input change', updateLocationPreview);
+
+            updateCalculator();
+            updateLocationPreview();
+        });
+    </script>
+}

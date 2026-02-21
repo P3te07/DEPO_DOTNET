@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -10,18 +10,10 @@
     <Folder Include="Data\Migrations\" />
     <Folder Include="Models\dto\" />
     <Folder Include="Repositories\" />
-    <Folder Include="Views\Dashboard\" />
-    <Folder Include="Views\Companie\" />
-    <Folder Include="Views\Depozit\" />
-    <Folder Include="Views\Marfa\" />
-    <Folder Include="Views\Rapoarte\" />
-    <Folder Include="Views\User\" />
-    <Folder Include="Views\Tranzactie\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.3">
       <PrivateAssets>all</PrivateAssets>

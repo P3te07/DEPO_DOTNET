@@ -1,0 +1,190 @@
+﻿@model Proiect_ASPDOTNET.Models.ViewModels.ResponsabilDepozitDashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Responsabil Depozit";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-warehouse me-2"></i>@Model.Depozit.Nume</h2>
+    <p class="text-muted">Dashboard Responsabil Depozit</p>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-0">Total Marfuri</h6>
+                        <h2 class="mb-0">@Model.TotalMarfuri</h2>
+                    </div>
+                    <i class="fas fa-boxes fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-0">Valoare Totala</h6>
+                        <h2 class="mb-0">@Model.ValoareTotala.ToString("N0") RON</h2>
+                    </div>
+                    <i class="fas fa-coins fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-0">Tranzactii Recente</h6>
+                        <h2 class="mb-0">@Model.TranzactiiRecente.Count</h2>
+                    </div>
+                    <i class="fas fa-exchange-alt fa-3x opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-bolt me-2"></i>Actiuni Rapide
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="/Marfa/Create" class="btn btn-primary w-100 mb-2">
+                    <i class="fas fa-plus me-2"></i>Adauga Marfa
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Tranzactie/Create" class="btn btn-success w-100 mb-2">
+                    <i class="fas fa-arrow-down me-2"></i>Intrare Marfa
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Tranzactie/Create" class="btn btn-warning w-100 mb-2">
+                    <i class="fas fa-arrow-up me-2"></i>Iesire Marfa
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Rapoarte/Inventar" class="btn btn-info w-100 mb-2">
+                    <i class="fas fa-file-alt me-2"></i>Raport Inventar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inventory Table -->
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-list me-2"></i>Inventar Marfuri</span>
+        <a href="/Marfa" class="btn btn-sm btn-primary">Vezi Tot</a>
+    </div>
+    <div class="card-body">
+        @if (Model.Marfuri.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Nume</th>
+                            <th>Cantitate</th>
+                            <th>Localizare</th>
+                            <th>Valoare Unitara</th>
+                            <th>Valoare Totala</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var marfa in Model.Marfuri.Take(10))
+                        {
+                            <tr>
+                                <td><code>@marfa.SKU</code></td>
+                                <td>@marfa.Name</td>
+                                <td>
+                                    <span class="badge bg-info">@marfa.CapacitateCurenta @marfa.UnitateMasura</span>
+                                </td>
+                                <td>
+                                    <small>Zona @marfa.Zona, Etaj @marfa.Etaj, Raft @marfa.Raft-@marfa.Pozitie</small>
+                                </td>
+                                <td>@marfa.PretUnitar.ToString("N2") RON</td>
+                                <td><strong>@((marfa.CapacitateCurenta * marfa.PretUnitar).ToString("N2")) RON</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted mb-0">Nu exista marfuri in inventar.</p>
+        }
+    </div>
+</div>
+
+<!-- Recent Transactions -->
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-history me-2"></i>Tranzactii Recente
+    </div>
+    <div class="card-body">
+        @if (Model.TranzactiiRecente.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tip</th>
+                            <th>Marfa</th>
+                            <th>Cantitate</th>
+                            <th>Utilizator</th>
+                            <th>Valoare</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tranzactie in Model.TranzactiiRecente)
+                        {
+                            <tr>
+                                <td>@tranzactie.DataTranzactie.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>
+                                    @if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)
+                                    {
+                                        <span class="badge bg-success">Intrare</span>
+                                    }
+                                    else if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)
+                                    {
+                                        <span class="badge bg-warning">Iesire</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info">Transfer</span>
+                                    }
+                                </td>
+                                <td>@tranzactie.Marfa.Name</td>
+                                <td>@tranzactie.Cantitate</td>
+                                <td>@tranzactie.User.NumeComplet</td>
+                                <td>@tranzactie.ValoareTotala.ToString("N2") RON</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted mb-0">Nu exista tranzactii recente.</p>
+        }
+    </div>
+</div>

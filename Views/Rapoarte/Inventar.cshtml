@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Marfa>
+
+@{
+    ViewData["Title"] = "Raport Inventar";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-boxes me-2"></i>Raport Inventar</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Rapoarte">Rapoarte</a></li>
+            <li class="breadcrumb-item active">Inventar</li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Filters -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Depozit</label>
+                <select name="depozitId" class="form-select">
+                    <option value="">Toate Depozitele</option>
+                    @if (ViewBag.Depozite != null)
+                    {
+                        @foreach (var dep in ViewBag.Depozite)
+                        {
+                            <option value="@dep.Id" selected="@(dep.Id == ViewBag.DepozitSelectat)">@dep.Nume</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Data Raport</label>
+                <input type="date" name="data" class="form-control" value="@ViewBag.DataRaport?.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">&nbsp;</label>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter me-2"></i>Filtreaza
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="exportToPDF()">
+                        <i class="fas fa-file-pdf me-2"></i>Export PDF
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Total Produse</h6>
+                <h2 class="mb-0">@Model.Count()</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Valoare Totala</h6>
+                <h2 class="mb-0">@ViewBag.ValoareTotala.ToString("N0") RON</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h6 class="card-title">Data Raport</h6>
+                <h2 class="mb-0">@ViewBag.DataRaport?.ToString("dd.MM.yyyy")</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inventory Table -->
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-table me-2"></i>Detalii Inventar
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Nume Produs</th>
+                            <th>Depozit</th>
+                            <th>Localizare</th>
+                            <th>Cantitate</th>
+                            <th>Pret Unitar</th>
+                            <th>Valoare Totala</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var marfa in Model)
+                        {
+                            <tr>
+                                <td><code>@marfa.SKU</code></td>
+                                <td>@marfa.Name</td>
+                                <td>@marfa.Depozit?.Nume</td>
+                                <td><small>Z@marfa.Zona E@marfa.Etaj R@marfa.Raft-@marfa.Pozitie</small></td>
+                                <td>@marfa.CapacitateCurenta @marfa.UnitateMasura</td>
+                                <td>@marfa.PretUnitar.ToString("N2") RON</td>
+                                <td><strong>@((marfa.CapacitateCurenta * marfa.PretUnitar).ToString("N2")) RON</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-active">
+                        <tr>
+                            <td colspan="6" class="text-end"><strong>TOTAL GENERAL:</strong></td>
+                            <td><strong>@Model.Sum(m => m.CapacitateCurenta * m.PretUnitar).ToString("N2") RON</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted text-center py-4 mb-0">Nu exista date pentru raport.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function exportToPDF() {
+            alert('Functionalitate export PDF - va fi implementata');
+            // Aici se va implementa exportul PDF
+        }
+    </script>
+}

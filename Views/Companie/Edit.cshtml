@@ -1,0 +1,89 @@
+﻿@model Proiect_ASPDOTNET.Models.ViewModels.CompanieViewModel
+
+@{
+    ViewData["Title"] = "Editeaza Companie";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-edit me-2"></i>Editeaza Companie</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Companie">Companii</a></li>
+            <li class="breadcrumb-item active">Editeaza</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-2"></i>Informatii Companie
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" method="post">
+                    <input asp-for="Id" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Nume" class="form-label"></label>
+                            <input asp-for="Nume" class="form-control" />
+                            <span asp-validation-for="Nume" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CUI" class="form-label"></label>
+                            <input asp-for="CUI" class="form-control" />
+                            <span asp-validation-for="CUI" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Adresa" class="form-label"></label>
+                        <input asp-for="Adresa" class="form-control" />
+                        <span asp-validation-for="Adresa" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Telefon" class="form-label"></label>
+                            <input asp-for="Telefon" class="form-control" />
+                            <span asp-validation-for="Telefon" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/Companie" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Inapoi
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salveaza Modificari
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-warning bg-opacity-10">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>Atentie</h5>
+                <p class="small mb-0">Modificarea datelor companiei poate afecta rapoartele si statisticile existente.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

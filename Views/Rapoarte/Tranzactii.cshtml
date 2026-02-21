@@ -1,0 +1,239 @@
+﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Tranzactii>
+
+@{
+    ViewData["Title"] = "Raport Tranzactii";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-exchange-alt me-2"></i>Raport Tranzactii</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Rapoarte">Rapoarte</a></li>
+            <li class="breadcrumb-item active">Tranzactii</li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Filters -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Data Start</label>
+                <input type="date" name="dataStart" class="form-control" value="@ViewBag.DataStart?.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Data End</label>
+                <input type="date" name="dataEnd" class="form-control" value="@ViewBag.DataEnd?.ToString("yyyy-MM-dd")">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Depozit</label>
+                <select name="depozitId" class="form-select">
+                    <option value="">Toate Depozitele</option>
+                    @if (ViewBag.Depozite != null)
+                    {
+                        @foreach (var dep in ViewBag.Depozite)
+                        {
+                            <option value="@dep.Id" selected="@(dep.Id == ViewBag.DepozitSelectat)">@dep.Nume</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Tip Tranzactie</label>
+                <select name="tip" class="form-select">
+                    <option value="">Toate</option>
+                    <option value="1" selected="@(ViewBag.TipSelectat == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)">Intrare</option>
+                    <option value="2" selected="@(ViewBag.TipSelectat == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)">Iesire</option>
+                    <option value="3" selected="@(ViewBag.TipSelectat == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Transfer)">Transfer</option>
+                </select>
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-filter me-2"></i>Filtreaza
+                </button>
+                <button type="button" class="btn btn-success" onclick="exportToExcel()">
+                    <i class="fas fa-file-excel me-2"></i>Export Excel
+                </button>
+                <a href="/Rapoarte/Tranzactii" class="btn btn-secondary">
+                    <i class="fas fa-redo me-2"></i>Reseteaza
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Total Tranzactii</h6>
+                <h2 class="mb-0">@ViewBag.NumarTranzactii</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Intrari</h6>
+                <h2 class="mb-0">@Model.Count(t => t.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h6 class="card-title">Iesiri</h6>
+                <h2 class="mb-0">@Model.Count(t => t.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h6 class="card-title">Transferuri</h6>
+                <h2 class="mb-0">@Model.Count(t => t.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Transfer)</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-chart-line me-2"></i>Evolutie Valoare Tranzactii
+            </div>
+            <div class="card-body">
+                <canvas id="tranzactiiChart" height="80"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Transactions Table -->
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-table me-2"></i>Detalii Tranzactii
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tip</th>
+                            <th>Marfa</th>
+                            <th>Cantitate</th>
+                            <th>Depozit Sursa</th>
+                            <th>Depozit Destinatie</th>
+                            <th>Utilizator</th>
+                            <th>Valoare</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tranzactie in Model)
+                        {
+                            <tr>
+                                <td>@tranzactie.DataTranzactie.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>
+                                    @if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)
+                                    {
+                                        <span class="badge bg-success">Intrare</span>
+                                    }
+                                    else if (tranzactie.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)
+                                    {
+                                        <span class="badge bg-warning">Iesire</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info">Transfer</span>
+                                    }
+                                </td>
+                                <td>
+                                    <strong>@tranzactie.Marfa.Name</strong>
+                                    <br><small class="text-muted">@tranzactie.Marfa.SKU</small>
+                                </td>
+                                <td>@tranzactie.Cantitate @tranzactie.Marfa.UnitateMasura</td>
+                                <td>@(tranzactie.DepozitSursa?.Nume ?? "-")</td>
+                                <td>@(tranzactie.DepozitDestinatie?.Nume ?? "-")</td>
+                                <td>@tranzactie.User.NumeComplet</td>
+                                <td><strong>@tranzactie.ValoareTotala.ToString("N2") RON</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot class="table-active">
+                        <tr>
+                            <td colspan="7" class="text-end"><strong>VALOARE TOTALA:</strong></td>
+                            <td><strong>@ViewBag.ValoareTotala.ToString("N2") RON</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted text-center py-4 mb-0">Nu exista tranzactii in perioada selectata.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Prepare data for chart
+        var tranzactiiData = @Html.Raw(Json.Serialize(Model.GroupBy(t => t.DataTranzactie.Date)
+            .Select(g => new { 
+                Data = g.Key.ToString("dd.MM.yyyy"), 
+                Valoare = g.Sum(t => t.ValoareTotala) 
+            })
+            .OrderBy(x => x.Data)
+            .ToList()));
+        
+        var ctx = document.getElementById('tranzactiiChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: tranzactiiData.map(d => d.data),
+                datasets: [{
+                    label: 'Valoare Tranzactii (RON)',
+                    data: tranzactiiData.map(d => d.valoare),
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(2) + ' RON';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        function exportToExcel() {
+            alert('Functionalitate export Excel - va fi implementata');
+            // Aici se va implementa exportul Excel
+        }
+    </script>
+}

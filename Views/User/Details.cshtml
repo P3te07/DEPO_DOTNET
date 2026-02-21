@@ -1,0 +1,198 @@
+﻿@model Proiect_ASPDOTNET.Models.Entities.User
+
+@{
+    ViewData["Title"] = "Detalii Utilizator";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-user me-2"></i>@Model.NumeComplet</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/User">Utilizatori</a></li>
+            <li class="breadcrumb-item active">Detalii</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-info-circle me-2"></i>Informatii Utilizator</span>
+                <a href="/User/Edit/@Model.Id" class="btn btn-sm btn-warning">
+                    <i class="fas fa-edit me-1"></i>Editeaza
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">ID Utilizator:</div>
+                    <div class="col-md-8"><code>@Model.UserId</code></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Nume Complet:</div>
+                    <div class="col-md-8"><strong>@Model.NumeComplet</strong></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Username:</div>
+                    <div class="col-md-8">@Model.Username</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Email:</div>
+                    <div class="col-md-8">@Model.Email</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Rol:</div>
+                    <div class="col-md-8">
+                        @if (Model.Rol == Proiect_ASPDOTNET.Models.Entities.UserRole.SuperAdmin)
+                        {
+                            <span class="badge bg-danger fs-6">SuperAdmin</span>
+                        }
+                        else if (Model.Rol == Proiect_ASPDOTNET.Models.Entities.UserRole.DirectorCompanie)
+                        {
+                            <span class="badge bg-primary fs-6">Director Companie</span>
+                        }
+                        else if (Model.Rol == Proiect_ASPDOTNET.Models.Entities.UserRole.ResponsabilDepozit)
+                        {
+                            <span class="badge bg-info fs-6">Responsabil Depozit</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary fs-6">Muncitor</span>
+                        }
+                    </div>
+                </div>
+                @if (Model.Companie != null)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Companie:</div>
+                        <div class="col-md-8">
+                            <a href="/Companie/Details/@Model.Companie.Id">@Model.Companie.Nume</a>
+                        </div>
+                    </div>
+                }
+                @if (Model.Depozit != null)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Depozit:</div>
+                        <div class="col-md-8">
+                            <a href="/Depozit/Details/@Model.Depozit.Id">@Model.Depozit.Nume</a>
+                        </div>
+                    </div>
+                }
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Data Creare:</div>
+                    <div class="col-md-8">@Model.DataCreare.ToString("dd.MM.yyyy HH:mm")</div>
+                </div>
+                @if (Model.Rol == Proiect_ASPDOTNET.Models.Entities.UserRole.Muncitor)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Puncte Reward:</div>
+                        <div class="col-md-8">
+                            <span class="badge bg-warning fs-6">
+                                <i class="fas fa-star me-1"></i>@Model.PuncteReward puncte
+                            </span>
+                        </div>
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-4 text-muted">Status:</div>
+                    <div class="col-md-8">
+                        @if (Model.Activ)
+                        {
+                            <span class="badge bg-success fs-6">Activ</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger fs-6">Inactiv</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        @if (Model.Rol == Proiect_ASPDOTNET.Models.Entities.UserRole.Muncitor && Model.Sarcini?.Any() == true)
+        {
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-tasks me-2"></i>Sarcini (@Model.Sarcini.Count)
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach (var sarcina in Model.Sarcini.OrderByDescending(s => s.DataLimita).Take(5))
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">@sarcina.Titlu</h6>
+                                    <small>@sarcina.DataLimita.ToString("dd.MM.yyyy")</small>
+                                </div>
+                                <p class="mb-1 small">@sarcina.Descriere</p>
+                                <small>
+                                    @if (sarcina.Finalizata)
+                                    {
+                                        <span class="badge bg-success">Finalizata</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning">In asteptare</span>
+                                    }
+                                    <span class="badge bg-info ms-2">
+                                        <i class="fas fa-star me-1"></i>@sarcina.PuncteReward puncte
+                                    </span>
+                                </small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-chart-pie me-2"></i>Statistici
+            </div>
+            <div class="card-body">
+                @if (Model.Rol == Proiect_ASPDOTNET.Models.Entities.UserRole.Muncitor)
+                {
+                    <div class="mb-3">
+                        <small class="text-muted">Sarcini Totale:</small>
+                        <div class="h4 mb-0">@(Model.Sarcini?.Count ?? 0)</div>
+                    </div>
+                    <hr>
+                    <div class="mb-3">
+                        <small class="text-muted">Sarcini Finalizate:</small>
+                        <div class="h4 text-success mb-0">@(Model.Sarcini?.Count(s => s.Finalizata) ?? 0)</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <small class="text-muted">Puncte Reward:</small>
+                        <div class="h4 text-warning mb-0">
+                            <i class="fas fa-star me-1"></i>@Model.PuncteReward
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted mb-0">Statistici disponibile doar pentru muncitori.</p>
+                }
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-cog me-2"></i>Actiuni
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/User/Edit/@Model.Id" class="btn btn-warning">
+                        <i class="fas fa-edit me-2"></i>Editeaza
+                    </a>
+                    <a href="/User" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Inapoi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

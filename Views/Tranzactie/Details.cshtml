@@ -1,0 +1,141 @@
+﻿@model Proiect_ASPDOTNET.Models.Entities.Tranzactii
+
+@{
+    ViewData["Title"] = "Detalii Tranzactie";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-file-invoice me-2"></i>Detalii Tranzactie</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Tranzactie">Tranzactii</a></li>
+            <li class="breadcrumb-item active">Detalii</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-2"></i>Informatii Tranzactie
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">ID Tranzactie:</div>
+                    <div class="col-md-8"><code>@Model.TranzactieId</code></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Tip Tranzactie:</div>
+                    <div class="col-md-8">
+                        @if (Model.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Intrare)
+                        {
+                            <span class="badge bg-success fs-6"><i class="fas fa-arrow-down me-1"></i>Intrare</span>
+                        }
+                        else if (Model.Tip == Proiect_ASPDOTNET.Models.Entities.TipTranzactie.Iesire)
+                        {
+                            <span class="badge bg-warning fs-6"><i class="fas fa-arrow-up me-1"></i>Iesire</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-info fs-6"><i class="fas fa-exchange-alt me-1"></i>Transfer</span>
+                        }
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Data si Ora:</div>
+                    <div class="col-md-8">@Model.DataTranzactie.ToString("dd.MM.yyyy HH:mm:ss")</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Marfa:</div>
+                    <div class="col-md-8">
+                        <a href="/Marfa/Details/@Model.Marfa.Id">
+                            <strong>@Model.Marfa.Name</strong>
+                        </a>
+                        <br>
+                        <small class="text-muted">SKU: @Model.Marfa.SKU</small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Cantitate:</div>
+                    <div class="col-md-8">
+                        <span class="badge bg-primary fs-6">@Model.Cantitate @Model.Marfa.UnitateMasura</span>
+                    </div>
+                </div>
+                @if (Model.DepozitSursaId.HasValue)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Depozit Sursa:</div>
+                        <div class="col-md-8">
+                            <a href="/Depozit/Details/@Model.DepozitSursa.Id">@Model.DepozitSursa.Nume</a>
+                        </div>
+                    </div>
+                }
+                @if (Model.DepozitDestinatieId.HasValue)
+                {
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Depozit Destinatie:</div>
+                        <div class="col-md-8">
+                            <a href="/Depozit/Details/@Model.DepozitDestinatie.Id">@Model.DepozitDestinatie.Nume</a>
+                        </div>
+                    </div>
+                }
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Utilizator:</div>
+                    <div class="col-md-8">
+                        @Model.User.NumeComplet
+                        <br>
+                        <small class="text-muted">@Model.User.Email</small>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-muted">Valoare Totala:</div>
+                    <div class="col-md-8">
+                        <strong class="text-success h5">@Model.ValoareTotala.ToString("N2") RON</strong>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Observatii))
+                {
+                    <div class="row">
+                        <div class="col-md-4 text-muted">Observatii:</div>
+                        <div class="col-md-8">@Model.Observatii</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <i class="fas fa-chart-pie me-2"></i>Sumar
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <small class="text-muted">Cantitate:</small>
+                    <div class="h4 mb-0">@Model.Cantitate <small>@Model.Marfa.UnitateMasura</small></div>
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <small class="text-muted">Pret Unitar:</small>
+                    <div class="h5 mb-0">@Model.Marfa.PretUnitar.ToString("N2") RON</div>
+                </div>
+                <hr>
+                <div>
+                    <small class="text-muted">Valoare:</small>
+                    <div class="h4 text-success mb-0">@Model.ValoareTotala.ToString("N2") RON</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="/Tranzactie" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Inapoi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
