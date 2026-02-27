@@ -1,9 +1,9 @@
 ﻿using Proiect_ASPDOTNET.Data;
+using Proiect_ASPDOTNET.Helpers;
+using Proiect_ASPDOTNET.Models.ViewModels;
 using Proiect_ASPDOTNET.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Proiect_ASPDOTNET.Helpers;
-using Proiect_ASPDOTNET.Models.ViewModels;
 
 namespace Proiect_ASPDOTNET.Controllers
 {
@@ -21,15 +21,16 @@ namespace Proiect_ASPDOTNET.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            // Dacă utilizatorul este deja autentificat, redirecționează la dashboard
             if (AuthHelper.IsAuthenticated(HttpContext.Session))
             {
                 return RedirectToAction("Index", "Dashboard");
             }
+
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -44,31 +45,38 @@ namespace Proiect_ASPDOTNET.Controllers
 
             if (user == null || !AuthHelper.VerifyPassword(model.Password, user.PasswordHash))
             {
-                ModelState.AddModelError("", "Username sau parola incorecte");
+                ModelState.AddModelError("", "Username sau parola incorecte.");
                 return View(model);
             }
 
+            // Setează sesiunea
             AuthHelper.SetCurrentUser(HttpContext.Session, user);
 
-            // Log login
-            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
-            await _logService.LogActivityAsync(user.Id, "Login", "Utilizator autentificat", user.DepozitId, ipAddress);
+            // Log activitate
+            await _logService.LogActivityAsync("Login", "Utilizator autentificat cu succes", user.DepozitId);
 
             return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> Logout()
         {
-            var userId = AuthHelper.GetCurrentUserId(HttpContext.Session);
-            if (userId.HasValue)
+            try
             {
-                await _logService.LogActivityAsync(userId.Value, "Logout", "Utilizator deconectat");
+                // Log înainte de a șterge sesiunea
+                await _logService.LogActivityAsync("Logout", "Utilizator deconectat");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error logging logout: {ex.Message}");
             }
 
+            // Șterge sesiunea
             AuthHelper.Logout(HttpContext.Session);
+
             return RedirectToAction("Login");
         }
 
+        [HttpGet]
         public IActionResult AccessDenied()
         {
             return View();

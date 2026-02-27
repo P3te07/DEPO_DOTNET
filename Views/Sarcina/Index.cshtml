@@ -1,0 +1,166 @@
+﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Sarcina>
+
+@{
+    ViewData["Title"] = "Gestionare Sarcini";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2><i class="fas fa-tasks me-2"></i>Gestionare Sarcini Muncitori</h2>
+        <p class="text-muted mb-0">Atribuire si monitorizare sarcini</p>
+    </div>
+    <a href="@Url.Action("Create", "Sarcina")" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Adauga Sarcina
+    </a>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6 class="card-title">Total Sarcini</h6>
+                <h2 class="mb-0">@Model.Count()</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h6 class="card-title">In Asteptare</h6>
+                <h2 class="mb-0">@Model.Count(s => !s.Finalizata)</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Finalizate</h6>
+                <h2 class="mb-0">@Model.Count(s => s.Finalizata)</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h6 class="card-title">Prioritate Ridicata</h6>
+                <h2 class="mb-0">@Model.Count(s => !s.Finalizata && s.Prioritate == Proiect_ASPDOTNET.Models.Entities.PrioritateSarcina.Ridicata)</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Muncitor</th>
+                            <th>Titlu</th>
+                            <th>Descriere</th>
+                            <th>Data Limita</th>
+                            <th>Prioritate</th>
+                            <th>Puncte Reward</th>
+                            <th>Status</th>
+                            <th>Actiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var sarcina in Model)
+                        {
+                            <tr class="@(sarcina.Finalizata ? "table-success" : "")">
+                                <td><strong>@sarcina.User.NumeComplet</strong></td>
+                                <td>@sarcina.Titlu</td>
+                                <td>@sarcina.Descriere</td>
+                                <td>
+                                    @sarcina.DataLimita.ToString("dd.MM.yyyy HH:mm")
+                                    @if (!sarcina.Finalizata && sarcina.DataLimita < DateTime.Now)
+                                    {
+                                        <span class="badge bg-danger ms-2">Intarziat</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (sarcina.Prioritate == Proiect_ASPDOTNET.Models.Entities.PrioritateSarcina.Ridicata)
+                                    {
+                                        <span class="badge bg-danger">Ridicata</span>
+                                    }
+                                    else if (sarcina.Prioritate == Proiect_ASPDOTNET.Models.Entities.PrioritateSarcina.Medie)
+                                    {
+                                        <span class="badge bg-warning">Medie</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Scazuta</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge bg-info">
+                                        <i class="fas fa-star me-1"></i>@sarcina.PuncteReward
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (sarcina.Finalizata)
+                                    {
+                                        <span class="badge bg-success">Finalizata</span>
+                                        <br>
+
+                                        <small class="text-muted">@sarcina.DataFinalizare?.ToString("dd.MM.yyyy HH:mm")</small>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning">In asteptare</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!sarcina.Finalizata)
+                                    {
+                                        <button onclick="stergeSarcina(@sarcina.Id, '@sarcina.Titlu')" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-tasks fa-4x text-muted mb-3"></i>
+                <h5>Nu exista sarcini</h5>
+                <p class="text-muted">Adauga prima sarcina pentru muncitori.</p>
+                <a href="@Url.Action("Create", "Sarcina")" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Adauga Sarcina
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function stergeSarcina(id, titlu) {
+            if (confirm('Esti sigur ca vrei sa stergi sarcina "' + titlu + '"?')) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Sarcina")/' + id,
+                    type: 'POST',
+                    success: function(result) {
+                        if (result.success) {
+                            alert(result.message);
+                            location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function() {
+                        alert('A aparut o eroare la stergerea sarcinii.');
+                    }
+                });
+            }
+        }
+    </script>
+}

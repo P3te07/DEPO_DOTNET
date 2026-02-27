@@ -1,75 +1,71 @@
 ﻿@model Proiect_ASPDOTNET.Models.ViewModels.DirectorCompanieDashboardViewModel
 
 @{
-    ViewData["Title"] = "Dashboard Director Companie";
+    ViewData["Title"] = "Dashboard Director";
 }
 
 <div class="mb-4">
-    <h2><i class="fas fa-building me-2"></i>@Model.Companie.Nume</h2>
-    <p class="text-muted">Dashboard Director Companie</p>
+    <h2><i class="fas fa-briefcase me-2"></i>Dashboard Director Companie</h2>
+    <p class="text-muted">@Model.Companie.Nume</p>
 </div>
 
-<!-- Company Info -->
+<!-- Info Companie -->
 <div class="row mb-4">
-    <div class="col-md-8">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-                <i class="fas fa-info-circle me-2"></i>Informatii Companie
+                <i class="fas fa-building me-2"></i>Informatii Companie
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p><strong>CUI:</strong> @Model.Companie.CUI</p>
-                        <p><strong>Email:</strong> @Model.Companie.Email</p>
-                        <p><strong>Telefon:</strong> @Model.Companie.Telefon</p>
-                    </div>
-                    <div class="col-md-6">
-                        <p><strong>Adresa:</strong> @Model.Companie.Adresa</p>
-                        <p><strong>Data Inregistrare:</strong> @Model.Companie.DataInregistrare.ToString("dd.MM.yyyy")</p>
-                        <p><strong>Nr. Depozite:</strong> @Model.Depozite.Count</p>
-                    </div>
-                </div>
+                <p class="mb-2"><strong>Nume:</strong> @Model.Companie.Nume</p>
+                <p class="mb-2"><strong>CUI:</strong> @Model.Companie.CUI</p>
+                <p class="mb-2"><strong>Email:</strong> @Model.Companie.Email</p>
+                <p class="mb-0"><strong>Adresa:</strong> @Model.Companie.Adresa</p>
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="card text-white bg-primary">
-            <div class="card-body text-center">
-                <h6 class="card-title">Valoare Totala</h6>
-                <h2>@Model.ValoareTotala.ToString("N2") RON</h2>
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6 class="card-title">Valoare Totala Inventar</h6>
+                <h2 class="mb-0">@Model.ValoareTotala.ToString("N0") RON</h2>
             </div>
         </div>
-        <div class="card text-white bg-success mt-3">
-            <div class="card-body text-center">
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
                 <h6 class="card-title">Total Tranzactii</h6>
-                <h2>@Model.TotalTranzactii</h2>
+                <h2 class="mb-0">@Model.TotalTranzactii</h2>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Map with Warehouses -->
+<!-- Harta Depozite -->
 <div class="card mb-4">
     <div class="card-header">
-        <i class="fas fa-map-marked-alt me-2"></i>Harta Depozite
+        <i class="fas fa-map-marked-alt me-2"></i>Localizare Depozite
     </div>
     <div class="card-body">
         <div id="map" style="height: 400px; background-color: #e9ecef; border-radius: 8px;">
             <div class="d-flex align-items-center justify-content-center h-100">
                 <div class="text-center">
                     <i class="fas fa-map fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">Harta depozitelor<br>(Integrare Google Maps sau Leaflet)</p>
+                    <p class="text-muted">Harta cu depozitele companiei</p>
+                    <small class="text-muted">Integreaza Google Maps sau Leaflet pentru vizualizare completa</small>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Warehouses Statistics -->
+<!-- Tabel Depozite -->
 <div class="card">
     <div class="card-header">
-        <i class="fas fa-warehouse me-2"></i>Statistici Depozite
+        <i class="fas fa-warehouse me-2"></i>Depozite (@Model.Depozite.Count)
     </div>
     <div class="card-body">
         @if (Model.Depozite.Any())
@@ -78,46 +74,45 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Depozit</th>
+                            <th>Nume Depozit</th>
                             <th>Adresa</th>
-                            <th>Nr. Marfuri</th>
-                            <th>Nr. Tranzactii</th>
-                            <th>Valoare</th>
+                            <th>Numar Marfuri</th>
+                            <th>Valoare Depozit</th>
+                            <th>Tranzactii</th>
                             <th>Actiuni</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var dep in Model.Depozite)
+                        @foreach (var depozit in Model.Depozite)
                         {
                             <tr>
+                                <td><strong>@depozit.Depozit.Nume</strong></td>
+                                <td>@depozit.Depozit.Adresa</td>
+                                <td><span class="badge bg-primary">@depozit.NumarMarfuri produse</span></td>
+                                <td><strong>@depozit.ValoareDepozit.ToString("N2") MDL</strong></td>
+                                <td><span class="badge bg-info">@depozit.NumarTranzactii</span></td>
                                 <td>
-                                    <strong>@dep.Depozit.Nume</strong><br>
-                                    <small class="text-muted">@dep.Depozit.DepozitId</small>
-                                </td>
-                                <td>@dep.Depozit.Adresa</td>
-                                <td>
-                                    <span class="badge bg-info">@dep.NumarMarfuri</span>
-                                </td>
-                                <td>
-                                    <span class="badge bg-primary">@dep.NumarTranzactii</span>
-                                </td>
-                                <td>
-                                    <strong>@dep.ValoareDepozit.ToString("N2") RON</strong>
-                                </td>
-                                <td>
-                                    <a href="/Depozit/Details/@dep.Depozit.Id" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-eye"></i> Detalii
+                                    <a href="/Depozit/Details/@depozit.Depozit.Id" class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i> Vezi Detalii
                                     </a>
                                 </td>
                             </tr>
                         }
                     </tbody>
+                    <tfoot class="table-active">
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>TOTAL:</strong></td>
+                            <td><strong>@Model.ValoareTotala.ToString("N2") MDL</strong></td>
+                            <td><strong>@Model.TotalTranzactii tranzactii</strong></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         }
         else
         {
-            <p class="text-muted mb-0">Nu exista depozite inregistrate.</p>
+            <p class="text-muted text-center mb-0">Nu exista depozite pentru aceasta companie.</p>
         }
     </div>
 </div>

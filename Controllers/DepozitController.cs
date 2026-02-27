@@ -92,7 +92,7 @@ namespace Proiect_ASPDOTNET.Controllers
             await _context.SaveChangesAsync();
 
             var userId = AuthHelper.GetCurrentUserId(HttpContext.Session).Value;
-            await _logService.LogActivityAsync(userId, "Creare Depozit",
+            await _logService.LogActivityAsync( "Creare Depozit",
                 $"Depozit nou creat: {depozit.Nume} (ID: {depozit.DepozitId})", depozit.Id);
 
             TempData["Success"] = "Depozit adaugat cu succes!";
@@ -162,7 +162,7 @@ namespace Proiect_ASPDOTNET.Controllers
             await _context.SaveChangesAsync();
 
             var userId = AuthHelper.GetCurrentUserId(HttpContext.Session).Value;
-            await _logService.LogActivityAsync(userId, "Editare Depozit",
+            await _logService.LogActivityAsync("Editare Depozit",
                 $"Depozit editat: {depozit.Nume} (ID: {depozit.DepozitId})", depozit.Id);
 
             TempData["Success"] = "Depozit actualizat cu succes!";

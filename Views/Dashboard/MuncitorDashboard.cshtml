@@ -5,22 +5,17 @@
 }
 
 <div class="mb-4">
-    <h2><i class="fas fa-user-hard-hat me-2"></i>Bine ai venit, @Model.User.NumeComplet!</h2>
-    <p class="text-muted">Dashboard Muncitor</p>
+    <h2><i class="fas fa-hard-hat me-2"></i>Buna, @Model.User.NumeComplet!</h2>
+    <p class="text-muted">Sarcinile tale pentru astazi</p>
 </div>
 
-<!-- Statistics Cards -->
+<!-- Statistici -->
 <div class="row mb-4">
     <div class="col-md-4">
         <div class="card text-white bg-primary">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title mb-0">Sarcini Azi</h6>
-                        <h2 class="mb-0">@Model.SarciniAzi.Count</h2>
-                    </div>
-                    <i class="fas fa-tasks fa-3x opacity-50"></i>
-                </div>
+                <h6 class="card-title">Sarcini Astazi</h6>
+                <h2 class="mb-0">@Model.SarciniAzi.Count</h2>
             </div>
         </div>
     </div>
@@ -28,13 +23,8 @@
     <div class="col-md-4">
         <div class="card text-white bg-success">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title mb-0">Finalizate Azi</h6>
-                        <h2 class="mb-0">@Model.SarciniFinalizateAstazi</h2>
-                    </div>
-                    <i class="fas fa-check-circle fa-3x opacity-50"></i>
-                </div>
+                <h6 class="card-title">Finalizate Astazi</h6>
+                <h2 class="mb-0">@Model.SarciniFinalizateAstazi</h2>
             </div>
         </div>
     </div>
@@ -42,22 +32,19 @@
     <div class="col-md-4">
         <div class="card text-white bg-warning">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title mb-0">Puncte Reward</h6>
-                        <h2 class="mb-0">@Model.PuncteRewardTotal</h2>
-                    </div>
-                    <i class="fas fa-trophy fa-3x opacity-50"></i>
-                </div>
+                <h6 class="card-title">Puncte Reward</h6>
+                <h2 class="mb-0">
+                    <i class="fas fa-star me-1"></i>@Model.PuncteRewardTotal
+                </h2>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Today's Tasks -->
+<!-- Sarcini Astazi -->
 <div class="card mb-4">
     <div class="card-header">
-        <i class="fas fa-calendar-day me-2"></i>Sarcini de Azi
+        <i class="fas fa-tasks me-2"></i>Sarcinile Tale de Astazi
     </div>
     <div class="card-body">
         @if (Model.SarciniAzi.Any())
@@ -66,9 +53,9 @@
                 @foreach (var sarcina in Model.SarciniAzi)
                 {
                     <div class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between align-items-start">
+                        <div class="d-flex justify-content-between align-items-start">
                             <div class="flex-grow-1">
-                                <h5 class="mb-1">
+                                <h6 class="mb-1">
                                     @sarcina.Titlu
                                     @if (sarcina.Prioritate == Proiect_ASPDOTNET.Models.Entities.PrioritateSarcina.Ridicata)
                                     {
@@ -82,18 +69,17 @@
                                     {
                                         <span class="badge bg-info ms-2">Prioritate Scazuta</span>
                                     }
-                                </h5>
-                                <p class="mb-1">@sarcina.Descriere</p>
+                                </h6>
+                                <p class="mb-2">@sarcina.Descriere</p>
                                 <small class="text-muted">
                                     <i class="fas fa-clock me-1"></i>Termen: @sarcina.DataLimita.ToString("HH:mm")
                                 </small>
-                                <small class="text-success ms-3">
-                                    <i class="fas fa-star me-1"></i>@sarcina.PuncteReward puncte
-                                </small>
                             </div>
-                            <div>
-                                <button class="btn btn-success btn-sm" onclick="finalizareSarcina(@sarcina.Id)">
+                            <div class="ms-3">
+                                <button class="btn btn-success btn-sm" onclick="finalizeazaSarcina(@sarcina.Id)">
                                     <i class="fas fa-check me-1"></i>Finalizeaza
+                                    <br>
+                                    <small>+@sarcina.PuncteReward puncte</small>
                                 </button>
                             </div>
                         </div>
@@ -103,82 +89,112 @@
         }
         else
         {
-            <div class="text-center py-5">
-                <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
-                <h5>Toate sarcinile au fost finalizate!</h5>
-                <p class="text-muted">Felicitari! Nu ai sarcini ramase pentru azi.</p>
+            <div class="text-center py-4">
+                <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                <h5>Felicitari!</h5>
+                <p class="text-muted mb-0">Nu ai sarcini pentru astazi.</p>
             </div>
         }
     </div>
 </div>
 
-<!-- Upcoming Tasks -->
-@if (Model.SarciniViitoare.Any())
-{
-    <div class="card">
-        <div class="card-header">
-            <i class="fas fa-calendar-alt me-2"></i>Sarcini Viitoare
-        </div>
-        <div class="card-body">
+<!-- Sarcini Viitoare -->
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-calendar-alt me-2"></i>Sarcini Viitoare
+    </div>
+    <div class="card-body">
+        @if (Model.SarciniViitoare.Any())
+        {
             <div class="list-group">
                 @foreach (var sarcina in Model.SarciniViitoare)
                 {
                     <div class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1">@sarcina.Titlu</h6>
-                            <small>@sarcina.DataLimita.ToString("dd.MM.yyyy")</small>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-1">@sarcina.Titlu</h6>
+                                <p class="mb-1 small">@sarcina.Descriere</p>
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar me-1"></i>@sarcina.DataLimita.ToString("dd.MM.yyyy HH:mm")
+                                </small>
+                            </div>
+                            <span class="badge bg-info align-self-center">
+                                <i class="fas fa-star me-1"></i>@sarcina.PuncteReward
+                            </span>
                         </div>
-                        <p class="mb-1 small">@sarcina.Descriere</p>
                     </div>
                 }
             </div>
-        </div>
+        }
+        else
+        {
+            <p class="text-muted text-center mb-0">Nu ai sarcini viitoare programate.</p>
+        }
     </div>
-}
+</div>
 
-<!-- Rewards Progress -->
-<div class="card mt-4">
+<!-- Sistem Rewards -->
+<div class="card">
     <div class="card-header">
-        <i class="fas fa-award me-2"></i>Sistem Rewards
+        <i class="fas fa-trophy me-2"></i>Sistemul de Recompense
     </div>
     <div class="card-body">
-        <div class="row text-center">
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <i class="fas fa-medal fa-3x text-bronze"></i>
-                    <p class="mb-0 mt-2"><strong>Bronze</strong></p>
-                    <small class="text-muted">0-100 puncte</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <i class="fas fa-medal fa-3x text-muted"></i>
-                    <p class="mb-0 mt-2"><strong>Silver</strong></p>
-                    <small class="text-muted">101-250 puncte</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <i class="fas fa-medal fa-3x text-warning"></i>
-                    <p class="mb-0 mt-2"><strong>Gold</strong></p>
-                    <small class="text-muted">251-500 puncte</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <i class="fas fa-crown fa-3x text-primary"></i>
-                    <p class="mb-0 mt-2"><strong>Platinum</strong></p>
-                    <small class="text-muted">500+ puncte</small>
-                </div>
+        <h5 class="mb-3">
+            Nivelul Tau:
+            @if (Model.PuncteRewardTotal < 100)
+            {
+                <span class="badge bg-secondary">Bronz</span>
+            }
+            else if (Model.PuncteRewardTotal < 250)
+            {
+                <span class="badge" style="background-color: silver;">Argint</span>
+            }
+            else if (Model.PuncteRewardTotal < 500)
+            {
+                <span class="badge" style="background-color: gold; color: black;">Aur</span>
+            }
+            else
+            {
+                <span class="badge" style="background-color: #E5E4E2;">Platina</span>
+            }
+        </h5>
+
+        <div class="progress mb-3" style="height: 25px;">
+            @{
+                var progressPercent = Model.PuncteRewardTotal >= 500 ? 100 : (Model.PuncteRewardTotal % 100);
+                var progressColor = Model.PuncteRewardTotal < 100 ? "bg-secondary" :
+                Model.PuncteRewardTotal < 250 ? "bg-info" :
+                Model.PuncteRewardTotal < 500 ? "bg-warning" : "bg-success";
+            }
+            <div class="progress-bar @progressColor" style="width: @progressPercent%">
+                @Model.PuncteRewardTotal puncte
             </div>
         </div>
-        <div class="progress" style="height: 25px;">
-            @{
-                var progress = Math.Min((Model.PuncteRewardTotal / 500.0) * 100, 100);
-            }
-            <div class="progress-bar bg-warning" role="progressbar" style="width: @progress%"
-                 aria-valuenow="@Model.PuncteRewardTotal" aria-valuemin="0" aria-valuemax="500">
-                @Model.PuncteRewardTotal / 500
+
+        <div class="row text-center">
+            <div class="col-3">
+                <div class="p-2 @(Model.PuncteRewardTotal >= 0 ? "bg-secondary" : "bg-light") rounded text-white">
+                    <i class="fas fa-medal fa-2x"></i>
+                    <p class="mb-0 mt-2"><small>Bronz<br>0-100</small></p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="p-2 @(Model.PuncteRewardTotal >= 100 ? "bg-info" : "bg-light") rounded text-white">
+                    <i class="fas fa-medal fa-2x"></i>
+                    <p class="mb-0 mt-2"><small>Argint<br>101-250</small></p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="p-2 @(Model.PuncteRewardTotal >= 250 ? "bg-warning" : "bg-light") rounded text-white">
+                    <i class="fas fa-medal fa-2x"></i>
+                    <p class="mb-0 mt-2"><small>Aur<br>251-500</small></p>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="p-2 @(Model.PuncteRewardTotal >= 500 ? "bg-success" : "bg-light") rounded text-white">
+                    <i class="fas fa-crown fa-2x"></i>
+                    <p class="mb-0 mt-2"><small>Platina<br>500+</small></p>
+                </div>
             </div>
         </div>
     </div>
@@ -186,17 +202,24 @@
 
 @section Scripts {
     <script>
-        function finalizareSarcina(sarcinaId) {
+        function finalizeazaSarcina(sarcinaId) {
             if (confirm('Esti sigur ca ai finalizat aceasta sarcina?')) {
-                // Aici ar trebui sa fie un POST catre server
-                alert('Functionalitate de finalizare sarcina - va fi implementata');
-                location.reload();
+                $.ajax({
+                    url: '/Sarcina/Finalizeaza/' + sarcinaId,
+                    type: 'POST',
+                    success: function(result) {
+                        if (result.success) {
+                            alert('Sarcina finalizata! +' + result.puncte + ' puncte reward!');
+                            location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function() {
+                        alert('A aparut o eroare.');
+                    }
+                });
             }
         }
     </script>
-    <style>
-        .text-bronze {
-            color: #cd7f32;
-        }
-    </style>
 }

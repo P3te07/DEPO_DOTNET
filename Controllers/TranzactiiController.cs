@@ -261,7 +261,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 logDetalii += $", Destinatie: {depozitDest?.Nume}";
             }
 
-            await _logService.LogActivityAsync(userId, "Tranzactie Noua", logDetalii, marfa.DepozitId);
+            await _logService.LogActivityAsync("Tranzactie Noua", logDetalii, marfa.DepozitId);
 
             TempData["Success"] = "Tranzactie inregistrata cu succes!";
             return RedirectToAction(nameof(Index));

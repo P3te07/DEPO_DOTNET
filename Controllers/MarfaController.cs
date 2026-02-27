@@ -98,7 +98,7 @@ namespace Proiect_ASPDOTNET.Controllers
             await _context.SaveChangesAsync();
 
             var userId = AuthHelper.GetCurrentUserId(HttpContext.Session).Value;
-            await _logService.LogActivityAsync(userId, "Adaugare Marfa",
+            await _logService.LogActivityAsync("Adaugare Marfa",
                 $"Marfa noua: {marfa.Name} (SKU: {marfa.SKU}, Cantitate: {marfa.CapacitateCurenta})",
                 marfa.DepozitId);
 
@@ -163,7 +163,7 @@ namespace Proiect_ASPDOTNET.Controllers
             await _context.SaveChangesAsync();
 
             var userId = AuthHelper.GetCurrentUserId(HttpContext.Session).Value;
-            await _logService.LogActivityAsync(userId, "Editare Marfa",
+            await _logService.LogActivityAsync("Editare Marfa",
                 $"Marfa editata: {marfa.Name} (SKU: {marfa.SKU})", marfa.DepozitId);
 
             TempData["Success"] = "Marfa actualizata cu succes!";

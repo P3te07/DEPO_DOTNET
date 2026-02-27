@@ -95,7 +95,7 @@ namespace Proiect_ASPDOTNET.Controllers
             await _context.SaveChangesAsync();
 
             var currentUserId = AuthHelper.GetCurrentUserId(HttpContext.Session).Value;
-            await _logService.LogActivityAsync(currentUserId, "Creare Utilizator",
+            await _logService.LogActivityAsync("Creare Utilizator",
                 $"Utilizator nou: {user.NumeComplet} ({user.Username}), Rol: {user.Rol}");
 
             TempData["Success"] = "Utilizator creat cu succes!";
@@ -152,7 +152,11 @@ namespace Proiect_ASPDOTNET.Controllers
             await _context.SaveChangesAsync();
 
             var currentUserId = AuthHelper.GetCurrentUserId(HttpContext.Session).Value;
-            await _logService.LogActivityAsync(currentUserId, "Editare Utilizator",
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+            await _logService.LogActivityAsync("Editare Utilizator",
                 $"Utilizator editat: {user.NumeComplet} ({user.Username})");
 
             TempData["Success"] = "Utilizator actualizat cu succes!";
