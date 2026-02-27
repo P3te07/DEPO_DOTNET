@@ -14,7 +14,7 @@
 
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="/Dashboard">
+                <a class="nav-link" href="/Dashboard/Index">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
             </li>
@@ -22,18 +22,23 @@
             @if (rol == "SuperAdmin")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="/Companie">
+                    <a class="nav-link" href="/Companie/Index">
                         <i class="fas fa-building me-2"></i>Companii
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Depozit">
+                    <a class="nav-link" href="/Depozit/Index">
                         <i class="fas fa-warehouse me-2"></i>Depozite
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/User">
+                    <a class="nav-link" href="/User/Index">
                         <i class="fas fa-users me-2"></i>Utilizatori
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Rapoarte/Index">
+                        <i class="fas fa-chart-bar me-2"></i>Rapoarte
                     </a>
                 </li>
             }
@@ -41,36 +46,51 @@
             @if (rol == "DirectorCompanie")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="/Depozit">
+                    <a class="nav-link" href="/Depozit/Index">
                         <i class="fas fa-warehouse me-2"></i>Depozite
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/User">
+                    <a class="nav-link" href="/User/Index">
                         <i class="fas fa-users me-2"></i>Utilizatori
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Marfa">
+                    <a class="nav-link" href="/Marfa/Index">
                         <i class="fas fa-boxes me-2"></i>Marfuri
                     </a>
                 </li>
-            }
-
-            @if (rol == "ResponsabilDepozit" || rol == "DirectorCompanie" || rol == "SuperAdmin")
-            {
                 <li class="nav-item">
-                    <a class="nav-link" href="/Marfa">
-                        <i class="fas fa-boxes me-2"></i>Inventar
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Tranzactie">
+                    <a class="nav-link" href="/Tranzactie/Index">
                         <i class="fas fa-exchange-alt me-2"></i>Tranzactii
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Rapoarte">
+                    <a class="nav-link" href="/Rapoarte/Index">
+                        <i class="fas fa-chart-bar me-2"></i>Rapoarte
+                    </a>
+                </li>
+            }
+
+            @if (rol == "ResponsabilDepozit")
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Marfa/Index">
+                        <i class="fas fa-boxes me-2"></i>Inventar
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Tranzactie/Index">
+                        <i class="fas fa-exchange-alt me-2"></i>Tranzactii
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/User/Index">
+                        <i class="fas fa-users me-2"></i>Muncitori
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Rapoarte/Index">
                         <i class="fas fa-chart-bar me-2"></i>Rapoarte
                     </a>
                 </li>
@@ -79,8 +99,8 @@
             @if (rol == "Muncitor")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="/Tranzactie">
-                        <i class="fas fa-tasks me-2"></i>Sarcini
+                    <a class="nav-link" href="/Tranzactie/Index">
+                        <i class="fas fa-tasks me-2"></i>Tranzactii
                     </a>
                 </li>
             }

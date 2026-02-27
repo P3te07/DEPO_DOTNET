@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
     <Folder Include="Models\dto\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
