@@ -16,7 +16,6 @@
 
 <form asp-action="Edit" method="post">
     <input asp-for="Id" type="hidden" />
-    <input asp-for="Username" type="hidden" />
 
     <div class="row">
         <div class="col-md-8">
@@ -27,10 +26,15 @@
                 <div class="card-body">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
+                    <div class="alert alert-warning">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Nota:</strong> Username-ul si parola pot fi modificate doar de catre utilizator din profilul sau.
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label">Username</label>
-                        <input type="text" class="form-control" value="@Model.Username" disabled />
-                        <small class="text-muted">Username-ul nu poate fi modificat</small>
+                        <input type="text" class="form-control" value="@Model.Username" disabled>
+                        <small class="text-muted">Username-ul nu poate fi modificat de administratori</small>
                     </div>
 
                     <div class="mb-3">
@@ -45,12 +49,6 @@
                         <span asp-validation-for="Email" class="text-danger small"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="newPassword" class="form-label">Parola Noua</label>
-                        <input type="password" name="newPassword" id="newPassword" class="form-control" placeholder="Lasa gol daca nu doresti sa schimbi parola" />
-                        <small class="text-muted">Completeaza doar daca doresti sa schimbi parola (minim 6 caractere)</small>
-                    </div>
-
                     <div class="form-check">
                         <input asp-for="Activ" class="form-check-input" />
                         <label asp-for="Activ" class="form-check-label"></label>
@@ -63,32 +61,67 @@
                     <i class="fas fa-briefcase me-2"></i>Rol si Atribuire
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label asp-for="Rol" class="form-label"></label>
-                        <select asp-for="Rol" class="form-select" id="rolSelect">
-                            <option value="1">SuperAdmin</option>
-                            <option value="2">Director Companie</option>
-                            <option value="3">Responsabil Depozit</option>
-                            <option value="4">Muncitor</option>
-                        </select>
-                        <span asp-validation-for="Rol" class="text-danger small"></span>
-                    </div>
+                    @if (ViewBag.RolBlocat == true)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Rol</label>
+                            <input type="text" class="form-control" value="Muncitor" disabled>
+                            <small class="text-muted">Nu puteti modifica rolul</small>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label asp-for="Rol" class="form-label"></label>
+                            <select asp-for="Rol" class="form-select" id="rolSelect">
+                                <option value="1">SuperAdmin</option>
+                                <option value="2">Director Companie</option>
+                                <option value="3">Responsabil Depozit</option>
+                                <option value="4">Muncitor</option>
+                            </select>
+                            <span asp-validation-for="Rol" class="text-danger small"></span>
+                        </div>
+                    }
 
-                    <div class="mb-3" id="companieDiv">
-                        <label asp-for="CompanieId" class="form-label"></label>
-                        <select asp-for="CompanieId" class="form-select" asp-items="ViewBag.Companii" id="companieSelect">
-                            <option value="">Selecteaza compania...</option>
-                        </select>
-                        <span asp-validation-for="CompanieId" class="text-danger small"></span>
-                    </div>
+                    @if (ViewBag.CompanieBlocata == true)
+                    {
+                        <input asp-for="CompanieId" type="hidden" />
+                        <div class="mb-3">
+                            <label class="form-label">Companie</label>
+                            <select class="form-select" asp-items="ViewBag.Companii" disabled></select>
+                            <small class="text-muted">Compania nu poate fi modificata</small>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label asp-for="CompanieId" class="form-label"></label>
+                            <select asp-for="CompanieId" class="form-select" asp-items="ViewBag.Companii" id="companieSelect">
+                                <option value="">Selecteaza compania...</option>
+                            </select>
+                            <span asp-validation-for="CompanieId" class="text-danger small"></span>
+                        </div>
+                    }
 
-                    <div class="mb-3" id="depozitDiv">
-                        <label asp-for="DepozitId" class="form-label"></label>
-                        <select asp-for="DepozitId" class="form-select" asp-items="ViewBag.Depozite" id="depozitSelect">
-                            <option value="">Selecteaza depozitul...</option>
-                        </select>
-                        <span asp-validation-for="DepozitId" class="text-danger small"></span>
-                    </div>
+                    @if (ViewBag.DepozitBlocat == true)
+                    {
+                        <input asp-for="DepozitId" type="hidden" />
+                        <div class="mb-3">
+                            <label class="form-label">Depozit</label>
+                            <select class="form-select" asp-items="ViewBag.Depozite" disabled></select>
+                            <small class="text-muted">Depozitul nu poate fi modificat</small>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3" id="depozitDiv">
+                            <label asp-for="DepozitId" class="form-label"></label>
+                            <select asp-for="DepozitId" class="form-select" asp-items="ViewBag.Depozite" id="depozitSelect">
+                                <option value="">Selecteaza depozitul...</option>
+                            </select>
+                            <span asp-validation-for="DepozitId" class="text-danger small"></span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -107,13 +140,22 @@
                 </div>
             </div>
 
+            <div class="card mb-3 bg-light">
+                <div class="card-body">
+                    <h6><i class="fas fa-shield-alt me-2"></i>Securitate</h6>
+                    <p class="small mb-0">
+                        Username si parola pot fi modificate doar de catre utilizator din sectiunea "Profilul Meu".
+                    </p>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save me-2"></i>Salveaza Modificari
                         </button>
-                        <a href="/User" class="btn btn-secondary">
+                        <a href="/User/Index" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-2"></i>Inapoi
                         </a>
                     </div>
@@ -129,22 +171,6 @@
     }
     <script>
         $(document).ready(function() {
-            function updateRolFields() {
-                var rol = $('#rolSelect').val();
-
-                $('#companieDiv').hide();
-                $('#depozitDiv').hide();
-
-                if (rol == '2') { // Director
-                    $('#companieDiv').show();
-                } else if (rol == '3' || rol == '4') { // Responsabil sau Muncitor
-                    $('#companieDiv').show();
-                    $('#depozitDiv').show();
-                }
-            }
-
-            $('#rolSelect').change(updateRolFields);
-
             $('#companieSelect').change(function() {
                 var companieId = $(this).val();
                 if (companieId) {
@@ -158,8 +184,6 @@
                     });
                 }
             });
-
-            updateRolFields();
         });
     </script>
 }

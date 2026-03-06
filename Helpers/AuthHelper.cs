@@ -8,20 +8,22 @@ namespace Proiect_ASPDOTNET.Helpers
     {
         private const string SessionKeyUser = "_CurrentUser";
 
-        public static void SetCurrentUser(ISession session, User user)
+        public static void SetCurrentUser(ISession session, int id, string userId, string username,
+      string email, string numeComplet, UserRole rol, int? companieId, int? depozitId)
         {
-            var userData = new
-            {
-                user.Id,
-                user.UserId,
-                user.Username,
-                user.NumeComplet,
-                user.Email,
-                Rol = user.Rol.ToString(),
-                user.CompanieId,
-                user.DepozitId
-            };
-            session.SetString(SessionKeyUser, JsonSerializer.Serialize(userData));
+            var userData = new Dictionary<string, object>
+    {
+        { "Id", id },
+        { "UserId", userId },
+        { "Username", username },
+        { "Email", email },
+        { "NumeComplet", numeComplet },
+        { "Rol", rol.ToString() },
+        { "CompanieId", companieId ?? 0 },
+        { "DepozitId", depozitId ?? 0 }
+    };
+
+            session.SetString("_CurrentUser", JsonSerializer.Serialize(userData));
         }
 
         public static dynamic GetCurrentUser(ISession session)

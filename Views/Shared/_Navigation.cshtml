@@ -22,22 +22,22 @@
             @if (rol == "SuperAdmin")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Companie")">
+                    <a class="nav-link" href="/Companie/Index">
                         <i class="fas fa-building me-2"></i>Companii
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Depozit")">
+                    <a class="nav-link" href="/Depozit/Index">
                         <i class="fas fa-warehouse me-2"></i>Depozite
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "User")">
+                    <a class="nav-link" href="/User/Index">
                         <i class="fas fa-users me-2"></i>Utilizatori
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Rapoarte")">
+                    <a class="nav-link" href="/Rapoarte/Index">
                         <i class="fas fa-chart-bar me-2"></i>Rapoarte
                     </a>
                 </li>
@@ -75,22 +75,22 @@
             @if (rol == "ResponsabilDepozit")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Marfa")">
+                    <a class="nav-link" href="/Marfa/Index">
                         <i class="fas fa-boxes me-2"></i>Inventar
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Tranzactie")">
+                    <a class="nav-link" href="/Tranzactie/Index">
                         <i class="fas fa-exchange-alt me-2"></i>Tranzactii
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Sarcina")">
-                        <i class="fas fa-tasks me-2"></i>Sarcini Muncitori
+                    <a class="nav-link" href="/User/Index">
+                        <i class="fas fa-users me-2"></i>Muncitori
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Rapoarte")">
+                    <a class="nav-link" href="/Rapoarte/Index">
                         <i class="fas fa-chart-bar me-2"></i>Rapoarte
                     </a>
                 </li>
@@ -99,15 +99,12 @@
             @if (rol == "Muncitor")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Dashboard")">
-                        <i class="fas fa-tasks me-2"></i>Sarcinile Mele
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Tranzactie")">
+                    <a class="nav-link" href="/Tranzactie/Index">
                         <i class="fas fa-exchange-alt me-2"></i>Tranzactii
                     </a>
                 </li>
+            }
+
             }
         </ul>
     }

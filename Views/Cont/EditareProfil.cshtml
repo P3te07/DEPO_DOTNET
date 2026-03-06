@@ -1,0 +1,78 @@
+﻿@model Proiect_ASPDOTNET.Models.Entities.User
+
+@{
+    ViewData["Title"] = "Editeaza Profil";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-user-edit me-2"></i>Editeaza Profilul</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-2"></i>Informatii Personale
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="@Model.Username" required>
+                        <small class="text-muted">Poti modifica username-ul daca este disponibil</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="numeComplet" class="form-label">Nume Complet</label>
+                        <input type="text" class="form-control" id="numeComplet" name="numeComplet" value="@Model.NumeComplet" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="@Model.Email" required>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Informatii despre cont:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>ID Utilizator: <code>@Model.UserId</code></li>
+                            <li>Rol: <span class="badge bg-primary">@Model.Rol</span></li>
+                            <li>Data Creare: @Model.DataCreare.ToString("dd.MM.yyyy")</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/Cont/Profil" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Anuleaza
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Salveaza Modificari
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h6><i class="fas fa-shield-alt me-2"></i>Securitate Cont</h6>
+                <p class="small">Pentru a schimba parola, foloseste sectiunea dedicata:</p>
+                <a href="/Cont/SchimbareParola" class="btn btn-warning btn-sm">
+                    <i class="fas fa-key me-2"></i>Schimba Parola
+                </a>
+            </div>
+        </div>
+
+        <div class="card mt-3 bg-warning bg-opacity-10">
+            <div class="card-body">
+                <h6><i class="fas fa-exclamation-triangle me-2"></i>Atentie</h6>
+                <p class="small mb-0">
+                    Rolul, compania si depozitul asociate contului tau pot fi modificate doar de catre administratori.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

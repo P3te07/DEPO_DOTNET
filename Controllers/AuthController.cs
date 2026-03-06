@@ -21,7 +21,7 @@ namespace Proiect_ASPDOTNET.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            // Dacă utilizatorul este deja autentificat, redirecționează la dashboard
+            // Dacă utilizatorul este deja autentificat, redirectează la dashboard
             if (AuthHelper.IsAuthenticated(HttpContext.Session))
             {
                 return RedirectToAction("Index", "Dashboard");
@@ -38,6 +38,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 return View(model);
             }
 
+            // Verifică credențialele
             var user = await _context.Users
                 .Include(u => u.Companie)
                 .Include(u => u.Depozit)
@@ -49,34 +50,52 @@ namespace Proiect_ASPDOTNET.Controllers
                 return View(model);
             }
 
-            // Setează sesiunea
-            AuthHelper.SetCurrentUser(HttpContext.Session, user);
+            // Setează sesiunea - CORECTARE: ordinea corectă a parametrilor
+            AuthHelper.SetCurrentUser(
+                HttpContext.Session,
+                user.Id,              // int id
+                user.UserId,          // string userId
+                user.Username,        // string username
+                user.Email,           // string email
+                user.NumeComplet,     // string numeComplet
+                user.Rol,             // UserRole rol
+                user.CompanieId,      // int? companieId
+                user.DepozitId        // int? depozitId
+            );
 
-            // Log activitate
-            await _logService.LogActivityAsync("Login", "Utilizator autentificat cu succes", user.DepozitId);
+            // Log activitate - CORECTARE: toate parametrii necesari
+            await _logService.LogActivityAsync(
+                user.Id,                                             // int userId
+                "Login",                                             // string actiune
+                "Utilizator autentificat cu succes",                 // string detalii
+                HttpContext.Connection.RemoteIpAddress?.ToString(),  // string? adresaIP
+                user.DepozitId                                       // int? depozitId
+            );
 
+            TempData["Success"] = $"Bun venit, {user.NumeComplet}!";
             return RedirectToAction("Index", "Dashboard");
         }
 
         public async Task<IActionResult> Logout()
         {
-            try
+            var userId = AuthHelper.GetCurrentUserId(HttpContext.Session);
+
+            if (userId.HasValue)
             {
-                // Log înainte de a șterge sesiunea
-                await _logService.LogActivityAsync("Logout", "Utilizator deconectat");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error logging logout: {ex.Message}");
+                // Log activitate înainte de logout
+                await _logService.LogActivityAsync(
+                    userId.Value,
+                    "Logout",
+                    "Utilizator deconectat",
+                    HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
 
-            // Șterge sesiunea
             AuthHelper.Logout(HttpContext.Session);
-
+            TempData["Success"] = "Te-ai deconectat cu succes.";
             return RedirectToAction("Login");
         }
 
-        [HttpGet]
         public IActionResult AccessDenied()
         {
             return View();

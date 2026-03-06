@@ -352,16 +352,22 @@
                 <ul class="navbar-nav ms-auto">
                     @if (Context.Session.GetString("_CurrentUser") != null)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Dashboard">
-                                <i class="fas fa-home me-1"></i>Dashboard
-                            </a>
-                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i>Profil
+                                <i class="fas fa-user me-1"></i>Cont
                             </a>
                             <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="/Cont/SchimbareParola">
+                                        <i class="fas fa-key me-1"></i>Schimba Parola
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/Cont/Profil">
+                                        <i class="fas fa-user-edit me-1"></i>Editeaza Profil
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="/Auth/Logout">
                                         <i class="fas fa-sign-out-alt me-1"></i>Deconectare

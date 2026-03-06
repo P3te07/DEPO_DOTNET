@@ -45,23 +45,66 @@
 </div>
 
 <!-- Harta Depozite -->
+<!-- Harta Depozite -->
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-map-marked-alt me-2"></i>Localizare Depozite
     </div>
     <div class="card-body">
-        <div id="map" style="height: 400px; background-color: #e9ecef; border-radius: 8px;">
-            <div class="d-flex align-items-center justify-content-center h-100">
-                <div class="text-center">
-                    <i class="fas fa-map fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">Harta cu depozitele companiei</p>
-                    <small class="text-muted">Integreaza Google Maps sau Leaflet pentru vizualizare completa</small>
-                </div>
-            </div>
-        </div>
+        <div id="map" style="height: 400px; border-radius: 8px;"></div>
     </div>
 </div>
 
+@section Scripts {
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([45.9432, 24.9668], 7); // Centered on Romania
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+        
+        // Add markers for each depot
+        var depozite = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Depozite.Select(d => new {
+            nume = d.Depozit.Nume,
+            lat = d.Depozit.Latitudine,
+            lng = d.Depozit.Longitudine,
+            adresa = d.Depozit.Adresa,
+            marfuri = d.NumarMarfuri,
+            valoare = d.ValoareDepozit.ToString("N2")
+        })));
+        
+        var markers = [];
+        
+        depozite.forEach(function(depozit) {
+            var marker = L.marker([parseFloat(depozit.lat), parseFloat(depozit.lng)])
+                .addTo(map)
+                .bindPopup(`
+                    <div style="min-width: 200px;">
+                        <h6 class="mb-2"><i class="fas fa-warehouse me-2"></i>${depozit.nume}</h6>
+                        <p class="mb-1 small"><i class="fas fa-map-marker-alt me-2"></i>${depozit.adresa}</p>
+                        <p class="mb-1 small"><i class="fas fa-boxes me-2"></i>${depozit.marfuri} produse</p>
+                        <p class="mb-0 small"><i class="fas fa-dollar-sign me-2"></i>${depozit.valoare} RON</p>
+                    </div>
+                `);
+            markers.push(marker);
+        });
+        
+        // Fit bounds to show all markers
+        if (markers.length > 0) {
+            var group = new L.featureGroup(markers);
+            map.fitBounds(group.getBounds().pad(0.1));
+        }
+    </script>
+}
 <!-- Tabel Depozite -->
 <div class="card">
     <div class="card-header">
