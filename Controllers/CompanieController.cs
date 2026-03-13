@@ -53,7 +53,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 Telefon = model.Telefon,
                 Email = model.Email,
                 DataInregistrare = DateTime.Now,
-                Active = true
+                Activa = true
             };
 
             _context.Companii.Add(companie);
@@ -97,12 +97,12 @@ namespace Proiect_ASPDOTNET.Controllers
                 return Json(new { success = false, message = "Compania nu a fost gasita." });
             }
 
-            if (companie.Depozite.Any(d => d.Active) || companie.Utilizatori.Any(u => u.Activ))
+            if (companie.Depozite.Any(d => d.Activ) || companie.Utilizatori.Any(u => u.Activ))
             {
                 return Json(new { success = false, message = "Nu poti sterge o companie cu depozite sau utilizatori activi." });
             }
 
-            companie.Active = false;
+            companie.Activa = false;
             await _context.SaveChangesAsync();
 
             var userId = AuthHelper.GetCurrentUserId(HttpContext.Session);

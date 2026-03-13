@@ -11,14 +11,14 @@
         public decimal Longitudine { get; set; }
         public int CapacitateMaxima { get; set; }
         public DateTime DataDeschidere { get; set; }
-        public bool Active { get; set; }
+        public bool Activ { get; set; }
 
         //nav
 
         public virtual Companie Companie { get; set; }
         public virtual ICollection<User> Utilizatori { get; set; }
         public virtual ICollection<Marfa> Marfuri { get; set; }
-        public virtual ICollection<Tranzactii> TranzactiiSursa { get; set; }
-        public virtual ICollection<Tranzactii> TranzactiiDestinatie { get; set; }
+        public virtual ICollection<Tranzactie> TranzactiiSursa { get; set; }
+        public virtual ICollection<Tranzactie> TranzactiiDestinatie { get; set; }
     }
 }

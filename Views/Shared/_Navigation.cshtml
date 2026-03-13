@@ -14,7 +14,7 @@
 
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="@Url.Action("Index", "Dashboard")">
+                <a class="nav-link" href="/Dashboard/Index">
                     <i class="fas fa-tachometer-alt me-2"></i>Dashboard
                 </a>
             </li>
@@ -46,27 +46,27 @@
             @if (rol == "DirectorCompanie")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Depozit")">
+                    <a class="nav-link" href="/Depozit/Index">
                         <i class="fas fa-warehouse me-2"></i>Depozite
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "User")">
+                    <a class="nav-link" href="/User/Index">
                         <i class="fas fa-users me-2"></i>Utilizatori
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Marfa")">
+                    <a class="nav-link" href="/Marfa/Index">
                         <i class="fas fa-boxes me-2"></i>Marfuri
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Tranzactie")">
+                    <a class="nav-link" href="/Tranzactie/Index">
                         <i class="fas fa-exchange-alt me-2"></i>Tranzactii
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index", "Rapoarte")">
+                    <a class="nav-link" href="/Rapoarte/Index">
                         <i class="fas fa-chart-bar me-2"></i>Rapoarte
                     </a>
                 </li>
@@ -85,6 +85,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/Tranzactie/Create">
+                        <i class="fas fa-arrow-down me-2"></i>Intrare Marfa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Tranzactie/Create">
+                        <i class="fas fa-arrow-up me-2"></i>Iesire Marfa
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/User/Index">
                         <i class="fas fa-users me-2"></i>Muncitori
                     </a>
@@ -99,12 +109,20 @@
             @if (rol == "Muncitor")
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="/Tranzactie/Index">
-                        <i class="fas fa-exchange-alt me-2"></i>Tranzactii
+                    <a class="nav-link" href="/Dashboard/Index">
+                        <i class="fas fa-tasks me-2"></i>Sarcinile Mele
                     </a>
                 </li>
-            }
-
+                <li class="nav-item">
+                    <a class="nav-link" href="/Tranzactie/Create">
+                        <i class="fas fa-arrow-down me-2"></i>Intrare Marfa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Tranzactie/Create">
+                        <i class="fas fa-arrow-up me-2"></i>Iesire Marfa
+                    </a>
+                </li>
             }
         </ul>
     }

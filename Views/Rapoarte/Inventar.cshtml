@@ -64,7 +64,7 @@
         <div class="card text-white bg-success">
             <div class="card-body">
                 <h6 class="card-title">Valoare Totala</h6>
-                <h2 class="mb-0">@ViewBag.ValoareTotala.ToString("N0") RON</h2>
+                <h2 class="mb-0">@ViewBag.ValoareTotala.ToString("N0") MDL</h2>
             </div>
         </div>
     </div>
@@ -104,19 +104,19 @@
                         {
                             <tr>
                                 <td><code>@marfa.SKU</code></td>
-                                <td>@marfa.Name</td>
+                                <td>@marfa.Nume</td>
                                 <td>@marfa.Depozit?.Nume</td>
                                 <td><small>Z@marfa.Zona E@marfa.Etaj R@marfa.Raft-@marfa.Pozitie</small></td>
-                                <td>@marfa.CapacitateCurenta @marfa.UnitateMasura</td>
-                                <td>@marfa.PretUnitar.ToString("N2") RON</td>
-                                <td><strong>@((marfa.CapacitateCurenta * marfa.PretUnitar).ToString("N2")) RON</strong></td>
+                                <td>@marfa.CantitateCurenta @marfa.UnitateMasura</td>
+                                <td>@marfa.PretUnitar.ToString("N2") MDL</td>
+                                <td><strong>@((marfa.CantitateCurenta * marfa.PretUnitar).ToString("N2")) MDL</strong></td>
                             </tr>
                         }
                     </tbody>
                     <tfoot class="table-active">
                         <tr>
                             <td colspan="6" class="text-end"><strong>TOTAL GENERAL:</strong></td>
-                            <td><strong>@Model.Sum(m => m.CapacitateCurenta * m.PretUnitar).ToString("N2") RON</strong></td>
+                            <td><strong>@Model.Sum(m => m.CantitateCurenta * m.PretUnitar).ToString("N2") MDL</strong></td>
                         </tr>
                     </tfoot>
                 </table>

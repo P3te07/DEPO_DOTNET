@@ -68,7 +68,7 @@
                             <tr>
                                 <td><code>@marfa.SKU</code></td>
                                 <td>
-                                    <strong>@marfa.Name</strong>
+                                    <strong>@marfa.Nume</strong>
                                     @if (!string.IsNullOrEmpty(marfa.Descriere))
                                     {
                                         <br>
@@ -79,7 +79,7 @@
                                 <td>@marfa.Depozit?.Nume</td>
                                 <td>
                                     <span class="badge bg-info">
-                                        @marfa.CapacitateCurenta @marfa.UnitateMasura
+                                        @marfa.CantitateCurenta @marfa.UnitateMasura
                                     </span>
                                 </td>
                                 <td>
@@ -89,9 +89,9 @@
                                         Raft <strong>@marfa.Raft</strong>-<strong>@marfa.Pozitie</strong>
                                     </small>
                                 </td>
-                                <td>@marfa.PretUnitar.ToString("N2") RON</td>
+                                <td>@marfa.PretUnitar.ToString("N2") MDL</td>
                                 <td>
-                                    <strong>@((marfa.CapacitateCurenta * marfa.PretUnitar).ToString("N2")) RON</strong>
+                                    <strong>@((marfa.CantitateCurenta * marfa.PretUnitar).ToString("N2")) MDL</strong>
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
@@ -110,7 +110,7 @@
                         <tr class="table-active">
                             <td colspan="6" class="text-end"><strong>TOTAL VALOARE:</strong></td>
                             <td colspan="2">
-                                <strong>@Model.Sum(m => m.CapacitateCurenta * m.PretUnitar).ToString("N2") RON</strong>
+                                <strong>@Model.Sum(m => m.CantitateCurenta * m.PretUnitar).ToString("N2") MDL</strong>
                             </td>
                         </tr>
                     </tfoot>

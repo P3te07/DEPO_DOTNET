@@ -1,4 +1,4 @@
-﻿@model Proiect_ASPDOTNET.Models.Entities.Tranzactii
+﻿@model Proiect_ASPDOTNET.Models.Entities.Tranzactie
 
 @{
     ViewData["Title"] = "Detalii Tranzactie";
@@ -50,7 +50,7 @@
                     <div class="col-md-4 text-muted">Marfa:</div>
                     <div class="col-md-8">
                         <a href="/Marfa/Details/@Model.Marfa.Id">
-                            <strong>@Model.Marfa.Name</strong>
+                            <strong>@Model.Marfa.Nume</strong>
                         </a>
                         <br>
                         <small class="text-muted">SKU: @Model.Marfa.SKU</small>
@@ -91,7 +91,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4 text-muted">Valoare Totala:</div>
                     <div class="col-md-8">
-                        <strong class="text-success h5">@Model.ValoareTotala.ToString("N2") RON</strong>
+                        <strong class="text-success h5">@Model.ValoareTotala.ToString("N2") MDL</strong>
                     </div>
                 </div>
                 @if (!string.IsNullOrEmpty(Model.Observatii))
@@ -118,12 +118,12 @@
                 <hr>
                 <div class="mb-3">
                     <small class="text-muted">Pret Unitar:</small>
-                    <div class="h5 mb-0">@Model.Marfa.PretUnitar.ToString("N2") RON</div>
+                    <div class="h5 mb-0">@Model.Marfa.PretUnitar.ToString("N2") MDL</div>
                 </div>
                 <hr>
                 <div>
                     <small class="text-muted">Valoare:</small>
-                    <div class="h4 text-success mb-0">@Model.ValoareTotala.ToString("N2") RON</div>
+                    <div class="h4 text-success mb-0">@Model.ValoareTotala.ToString("N2") MDL</div>
                 </div>
             </div>
         </div>

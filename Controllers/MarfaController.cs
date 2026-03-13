@@ -53,7 +53,7 @@ namespace Proiect_ASPDOTNET.Controllers
             // Filtrare pe search
             if (!string.IsNullOrWhiteSpace(search))
             {
-                query = query.Where(m => m.Name.Contains(search) || m.SKU.Contains(search) || m.Descriere.Contains(search));
+                query = query.Where(m => m.Nume.Contains(search) || m.SKU.Contains(search) || m.Descriere.Contains(search));
                 ViewBag.Search = search;
             }
 
@@ -81,7 +81,7 @@ namespace Proiect_ASPDOTNET.Controllers
             if (currentUserRole == UserRole.SuperAdmin)
             {
                 ViewBag.Depozite = new SelectList(
-                    await _context.Depozite.Where(d => d.Active).Include(d => d.Companie).ToListAsync(),
+                    await _context.Depozite.Where(d => d.Activ).Include(d => d.Companie).ToListAsync(),
                     "Id",
                     "Nume");
             }
@@ -92,7 +92,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 var companieId = userData["CompanieId"].GetInt32();
 
                 ViewBag.Depozite = new SelectList(
-                    await _context.Depozite.Where(d => d.Active && d.CompanieId == companieId).ToListAsync(),
+                    await _context.Depozite.Where(d => d.Activ && d.CompanieId == companieId).ToListAsync(),
                     "Id",
                     "Nume");
             }
@@ -132,11 +132,11 @@ namespace Proiect_ASPDOTNET.Controllers
             var marfa = new Marfa
             {
                 MarfaId = IdGenerator.GenerateMarfaId(),
-                Name = model.Nume,
+                Nume = model.Nume,
                 Descriere = model.Descriere,
                 SKU = model.SKU,
                 DepozitId = model.DepozitId,
-                CapacitateCurenta = model.CantitateCurenta,
+                CantitateCurenta = model.CantitateCurenta,
                 UnitateMasura = model.UnitateMasura,
                 PretUnitar = model.PretUnitar,
                 Zona = model.Zona,
@@ -159,7 +159,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     await _logService.LogActivityAsync(
                         userId.Value,
                         "Adaugare Marfa",
-                        $"Marfa noua: {marfa.Name} (SKU: {marfa.SKU})",
+                        $"Marfa noua: {marfa.Nume} (SKU: {marfa.SKU})",
                         HttpContext.Connection.RemoteIpAddress?.ToString(),
                         marfa.DepozitId);
                 }
@@ -220,11 +220,11 @@ namespace Proiect_ASPDOTNET.Controllers
             var model = new MarfaViewModel
             {
                 Id = marfa.Id,
-                Nume = marfa.Name,
+                Nume = marfa.Nume,
                 Descriere = marfa.Descriere,
                 SKU = marfa.SKU,
                 DepozitId = marfa.DepozitId,
-                CantitateCurenta = marfa.CapacitateCurenta,
+                CantitateCurenta = marfa.CantitateCurenta,
                 UnitateMasura = marfa.UnitateMasura,
                 PretUnitar = marfa.PretUnitar,
                 Zona = marfa.Zona,
@@ -268,7 +268,7 @@ namespace Proiect_ASPDOTNET.Controllers
 
             // Actualizează doar informațiile editabile
             // NOTA: Cantitatea se modifică doar prin tranzacții
-            marfa.Name = model.Nume;
+            marfa.Nume = model.Nume;
             marfa.Descriere = model.Descriere;
             marfa.SKU = model.SKU;
             marfa.UnitateMasura = model.UnitateMasura;
@@ -289,7 +289,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     await _logService.LogActivityAsync(
                         userId.Value,
                         "Editare Marfa",
-                        $"Marfa editata: {marfa.Name} (SKU: {marfa.SKU})",
+                        $"Marfa editata: {marfa.Nume} (SKU: {marfa.SKU})",
                         HttpContext.Connection.RemoteIpAddress?.ToString(),
                         marfa.DepozitId);
                 }
@@ -375,7 +375,7 @@ namespace Proiect_ASPDOTNET.Controllers
             }
 
             // Nu permite ștergerea dacă există stoc
-            if (marfa.CapacitateCurenta > 0)
+            if (marfa.CantitateCurenta > 0)
             {
                 return Json(new { success = false, message = "Nu puteti sterge o marfa cu stoc disponibil. Reduceti mai intai stocul la 0." });
             }
@@ -391,7 +391,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     await _logService.LogActivityAsync(
                         userId.Value,
                         "Stergere Marfa",
-                        $"Marfa stearsa: {marfa.Name} (SKU: {marfa.SKU})",
+                        $"Marfa stearsa: {marfa.Nume} (SKU: {marfa.SKU})",
                         HttpContext.Connection.RemoteIpAddress?.ToString(),
                         marfa.DepozitId);
                 }
@@ -412,7 +412,7 @@ namespace Proiect_ASPDOTNET.Controllers
             if (currentUserRole == UserRole.SuperAdmin)
             {
                 ViewBag.Depozite = new SelectList(
-                    await _context.Depozite.Where(d => d.Active).Include(d => d.Companie).ToListAsync(),
+                    await _context.Depozite.Where(d => d.Activ).Include(d => d.Companie).ToListAsync(),
                     "Id",
                     "Nume");
             }
@@ -423,7 +423,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 var companieId = userData["CompanieId"].GetInt32();
 
                 ViewBag.Depozite = new SelectList(
-                    await _context.Depozite.Where(d => d.Active && d.CompanieId == companieId).ToListAsync(),
+                    await _context.Depozite.Where(d => d.Activ && d.CompanieId == companieId).ToListAsync(),
                     "Id",
                     "Nume");
             }
@@ -447,7 +447,7 @@ namespace Proiect_ASPDOTNET.Controllers
             if (currentUserRole == UserRole.SuperAdmin)
             {
                 ViewBag.Depozite = new SelectList(
-                    await _context.Depozite.Where(d => d.Active ).ToListAsync(),
+                    await _context.Depozite.Where(d => d.Activ ).ToListAsync(),
                     "Id",
                     "Nume",
                     depozitId);
@@ -459,7 +459,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 var companieId = userData["CompanieId"].GetInt32();
 
                 ViewBag.Depozite = new SelectList(
-                    await _context.Depozite.Where(d => d.Active && d.CompanieId == companieId).ToListAsync(),
+                    await _context.Depozite.Where(d => d.Activ && d.CompanieId == companieId).ToListAsync(),
                     "Id",
                     "Nume",
                     depozitId);

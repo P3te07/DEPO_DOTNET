@@ -42,8 +42,8 @@ namespace Proiect_ASPDOTNET.Controllers
         {
             var model = new SuperAdminDashboardViewModel
             {
-                TotalCompanii = await _context.Companii.CountAsync(c => c.Active),
-                TotalDepozite = await _context.Depozite.CountAsync(d => d.Active),
+                TotalCompanii = await _context.Companii.CountAsync(c => c.Activa),
+                TotalDepozite = await _context.Depozite.CountAsync(d => d.Activ),
                 TotalUtilizatori = await _context.Users.CountAsync(u => u.Activ),
                 TotalTranzactii = await _context.Tranzactii.CountAsync(),
                 CompaniiRecente = await _context.Companii
@@ -94,7 +94,7 @@ namespace Proiect_ASPDOTNET.Controllers
 
                 var valoare = await _context.Marfuri
                     .Where(m => m.DepozitId == depozit.Id)
-                    .SumAsync(m => m.CapacitateCurenta * m.PretUnitar);
+                    .SumAsync(m => m.CantitateCurenta * m.PretUnitar);
 
                 var numarMarfuri = await _context.Marfuri
                     .CountAsync(m => m.DepozitId == depozit.Id);
@@ -148,7 +148,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 Depozit = depozit,
                 Marfuri = marfuri,
                 TotalMarfuri = marfuri.Count,
-                ValoareTotala = marfuri.Sum(m => m.CapacitateCurenta * m.PretUnitar),
+                ValoareTotala = marfuri.Sum(m => m.CantitateCurenta * m.PretUnitar),
                 TranzactiiRecente = tranzactiiRecente
             };
 

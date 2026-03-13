@@ -4,11 +4,11 @@
     {
         public int Id { get; set; }
         public string MarfaId { get; set; }
-        public string Name { get; set; }
+        public string Nume { get; set; }
         public string Descriere { get; set; }
         public string SKU { get; set; }
         public int DepozitId { get; set; }
-        public int CapacitateCurenta { get; set; }
+        public int CantitateCurenta { get; set; }
         public string UnitateMasura { get; set; }
         public decimal PretUnitar { get; set; }
 
@@ -24,6 +24,6 @@
         //nav
 
         public virtual Depozit Depozit { get; set; }
-        public virtual ICollection<Tranzactii> Tranzactii { get; set; }
+        public virtual ICollection<Tranzactie> Tranzactii { get; set; }
     }
 }

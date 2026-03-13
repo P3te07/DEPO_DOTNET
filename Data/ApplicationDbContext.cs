@@ -12,7 +12,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Companie> Companii { get; set; }
     public DbSet<Depozit> Depozite { get; set; }
     public DbSet<Marfa> Marfuri { get; set; }
-    public DbSet<Tranzactii> Tranzactii { get; set; }
+    public DbSet<Tranzactie> Tranzactii { get; set; }
     public DbSet<LogActivitate> LogActivitati { get; set; }
     public DbSet<Sarcina> Sarcini { get; set; }
 
@@ -68,7 +68,7 @@ public class ApplicationDbContext : DbContext
         });
 
         // Tranzactie 
-        modelBuilder.Entity<Tranzactii>(entity =>
+        modelBuilder.Entity<Tranzactie>(entity =>
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.TranzactieId).IsRequired().HasMaxLength(50);

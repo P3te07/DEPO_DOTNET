@@ -1,6 +1,6 @@
 ﻿namespace Proiect_ASPDOTNET.Models.Entities
 {
-    public class Tranzactii
+    public class Tranzactie
     {
         public int Id { get; set; }
         public string TranzactieId { get; set; }

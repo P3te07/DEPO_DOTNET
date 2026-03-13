@@ -24,7 +24,7 @@ namespace Proiect_ASPDOTNET.Migrations
                     Telefon = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DataInregistrare = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Activa = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +45,7 @@ namespace Proiect_ASPDOTNET.Migrations
                     Longitudine = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CapacitateMaxima = table.Column<int>(type: "int", nullable: false),
                     DataDeschidere = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false)
+                    Activ = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,11 +65,11 @@ namespace Proiect_ASPDOTNET.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MarfaId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nume = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descriere = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SKU = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepozitId = table.Column<int>(type: "int", nullable: false),
-                    CapacitateCurenta = table.Column<int>(type: "int", nullable: false),
+                    CantitateCurenta = table.Column<int>(type: "int", nullable: false),
                     UnitateMasura = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PretUnitar = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Zona = table.Column<string>(type: "nvarchar(max)", nullable: false),

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Proiect_ASPDOTNET.Controllers
 {
-    [AuthorizeRole(UserRole.DirectorCompanie, UserRole.ResponsabilDepozit, UserRole.Muncitor)]
+    [AuthorizeRole(UserRole.SuperAdmin, UserRole.DirectorCompanie, UserRole.ResponsabilDepozit, UserRole.Muncitor)]
     public class TranzactieController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -57,7 +57,7 @@ namespace Proiect_ASPDOTNET.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Marfuri = new SelectList(await _context.Marfuri.ToListAsync(), "Id", "Nume");
-            ViewBag.Depozite = new SelectList(await _context.Depozite.Where(d => d.Active).ToListAsync(), "Id", "Nume");
+            ViewBag.Depozite = new SelectList(await _context.Depozite.Where(d => d.Activ).ToListAsync(), "Id", "Nume");
             return View();
         }
 
@@ -81,9 +81,9 @@ namespace Proiect_ASPDOTNET.Controllers
             // Validări specifice pe tip
             if (model.Tip == TipTranzactie.Iesire || model.Tip == TipTranzactie.Transfer)
             {
-                if (marfa.CapacitateCurenta < model.Cantitate)
+                if (marfa.CantitateCurenta < model.Cantitate)
                 {
-                    TempData["Error"] = $"Stoc insuficient! Disponibil: {marfa.CapacitateCurenta} {marfa.UnitateMasura}";
+                    TempData["Error"] = $"Stoc insuficient! Disponibil: {marfa.CantitateCurenta} {marfa.UnitateMasura}";
                     ViewBag.Marfuri = new SelectList(await _context.Marfuri.ToListAsync(), "Id", "Nume");
                     ViewBag.Depozite = new SelectList(await _context.Depozite.ToListAsync(), "Id", "Nume");
                     return View(model);
@@ -92,7 +92,7 @@ namespace Proiect_ASPDOTNET.Controllers
 
             var userId = AuthHelper.GetCurrentUserId(HttpContext.Session).Value;
 
-            var tranzactie = new Tranzactii
+            var tranzactie = new Tranzactie
             {
                 TranzactieId = IdGenerator.GenerateTranzactieId(),
                 Tip = model.Tip,
@@ -110,15 +110,15 @@ namespace Proiect_ASPDOTNET.Controllers
             switch (model.Tip)
             {
                 case TipTranzactie.Intrare:
-                    marfa.CapacitateCurenta += model.Cantitate;
+                    marfa.CantitateCurenta += model.Cantitate;
                     break;
 
                 case TipTranzactie.Iesire:
-                    marfa.CapacitateCurenta -= model.Cantitate;
+                    marfa.CantitateCurenta -= model.Cantitate;
                     break;
 
                 case TipTranzactie.Transfer:
-                    marfa.CapacitateCurenta -= model.Cantitate;
+                    marfa.CantitateCurenta -= model.Cantitate;
                     // Aici ar trebui să creezi sau actualizezi marfa în depozitul destinație
                     break;
             }
@@ -129,7 +129,7 @@ namespace Proiect_ASPDOTNET.Controllers
             await _context.SaveChangesAsync();
 
             await _logService.LogActivityAsync(userId, $"Tranzactie {model.Tip}",
-                $"Marfa: {marfa.Name}, Cantitate: {model.Cantitate}",
+                $"Marfa: {marfa.Nume}, Cantitate: {model.Cantitate}",
                 HttpContext.Connection.RemoteIpAddress?.ToString(),
                 model.DepozitSursaId ?? model.DepozitDestinatieId);
 
@@ -171,9 +171,9 @@ namespace Proiect_ASPDOTNET.Controllers
             return Json(new
             {
                 success = true,
-                nume = marfa.Name,
+                nume = marfa.Nume,
                 sku = marfa.SKU,
-                stocDisponibil = marfa.CapacitateCurenta,
+                stocDisponibil = marfa.CantitateCurenta,
                 unitateMasura = marfa.UnitateMasura,
                 pretUnitar = marfa.PretUnitar,
                 depozitNume = marfa.Depozit?.Nume

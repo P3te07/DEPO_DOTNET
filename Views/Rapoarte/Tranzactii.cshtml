@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Tranzactii>
+﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Tranzactie>
 
 @{
     ViewData["Title"] = "Raport Tranzactii";
@@ -155,21 +155,21 @@
                                     }
                                 </td>
                                 <td>
-                                    <strong>@tranzactie.Marfa.Name</strong>
+                                    <strong>@tranzactie.Marfa.Nume</strong>
                                     <br><small class="text-muted">@tranzactie.Marfa.SKU</small>
                                 </td>
                                 <td>@tranzactie.Cantitate @tranzactie.Marfa.UnitateMasura</td>
                                 <td>@(tranzactie.DepozitSursa?.Nume ?? "-")</td>
                                 <td>@(tranzactie.DepozitDestinatie?.Nume ?? "-")</td>
                                 <td>@tranzactie.User.NumeComplet</td>
-                                <td><strong>@tranzactie.ValoareTotala.ToString("N2") RON</strong></td>
+                                <td><strong>@tranzactie.ValoareTotala.ToString("N2") MDL</strong></td>
                             </tr>
                         }
                     </tbody>
                     <tfoot class="table-active">
                         <tr>
                             <td colspan="7" class="text-end"><strong>VALOARE TOTALA:</strong></td>
-                            <td><strong>@ViewBag.ValoareTotala.ToString("N2") RON</strong></td>
+                            <td><strong>@ViewBag.ValoareTotala.ToString("N2") MDL</strong></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -200,7 +200,7 @@
             data: {
                 labels: tranzactiiData.map(d => d.data),
                 datasets: [{
-                    label: 'Valoare Tranzactii (RON)',
+                    label: 'Valoare Tranzactii (MDL)',
                     data: tranzactiiData.map(d => d.valoare),
                     backgroundColor: 'rgba(52, 152, 219, 0.2)',
                     borderColor: 'rgba(52, 152, 219, 1)',
@@ -223,7 +223,7 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return value.toFixed(2) + ' RON';
+                                return value.toFixed(2) + ' MDL';
                             }
                         }
                     }

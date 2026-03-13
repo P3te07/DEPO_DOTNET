@@ -40,7 +40,7 @@ namespace Proiect_ASPDOTNET.Models.ViewModels
         public List<Marfa> Marfuri { get; set; }
         public int TotalMarfuri { get; set; }
         public decimal ValoareTotala { get; set; }
-        public List<Tranzactii> TranzactiiRecente { get; set; }
+        public List<Tranzactie> TranzactiiRecente { get; set; }
     }
 
     public class MuncitorDashboardViewModel

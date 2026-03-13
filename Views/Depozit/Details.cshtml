@@ -1,14 +1,14 @@
-﻿@model Proiect_ASPDOTNET.Models.Entities.Companie
+﻿@model Proiect_ASPDOTNET.Models.Entities.Depozit
 
 @{
-    ViewData["Title"] = "Detalii Companie";
+    ViewData["Title"] = "Detalii Depozit";
 }
 
 <div class="mb-4">
-    <h2><i class="fas fa-building me-2"></i>@Model.Nume</h2>
+    <h2><i class="fas fa-warehouse me-2"></i>@Model.Nume</h2>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/Companie">Companii</a></li>
+            <li class="breadcrumb-item"><a href="/Depozit/Index">Depozite</a></li>
             <li class="breadcrumb-item active">Detalii</li>
         </ol>
     </nav>
@@ -18,97 +18,93 @@
     <div class="col-md-8">
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span><i class="fas fa-info-circle me-2"></i>Informatii Companie</span>
-                <a href="/Companie/Edit/@Model.Id" class="btn btn-sm btn-warning">
+                <span><i class="fas fa-info-circle me-2"></i>Informatii Depozit</span>
+                <a href="/Depozit/Edit/@Model.Id" class="btn btn-sm btn-warning">
                     <i class="fas fa-edit me-1"></i>Editeaza
                 </a>
             </div>
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-md-4 text-muted">ID Companie:</div>
-                    <div class="col-md-8"><code>@Model.CompanieId</code></div>
+                    <div class="col-md-4 text-muted">ID Depozit:</div>
+                    <div class="col-md-8"><code>@Model.DepozitId</code></div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-4 text-muted">Nume Companie:</div>
+                    <div class="col-md-4 text-muted">Nume:</div>
                     <div class="col-md-8"><strong>@Model.Nume</strong></div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-4 text-muted">CUI:</div>
-                    <div class="col-md-8">@Model.CUI</div>
+                    <div class="col-md-4 text-muted">Companie:</div>
+                    <div class="col-md-8">@Model.Companie?.Nume</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 text-muted">Adresa:</div>
                     <div class="col-md-8">@Model.Adresa</div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-4 text-muted">Telefon:</div>
-                    <div class="col-md-8">@Model.Telefon</div>
+                    <div class="col-md-4 text-muted">Coordonate GPS:</div>
+                    <div class="col-md-8">
+                        <a href="https://www.google.com/maps?q=@Model.Latitudine,@Model.Longitudine" target="_blank">
+                            @Model.Latitudine, @Model.Longitudine
+                            <i class="fas fa-external-link-alt ms-1"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-4 text-muted">Email:</div>
-                    <div class="col-md-8">@Model.Email</div>
+                    <div class="col-md-4 text-muted">Capacitate Maxima:</div>
+                    <div class="col-md-8">@Model.CapacitateMaxima m³</div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-4 text-muted">Data Inregistrare:</div>
-                    <div class="col-md-8">@Model.DataInregistrare.ToString("dd.MM.yyyy HH:mm")</div>
+                    <div class="col-md-4 text-muted">Data Deschidere:</div>
+                    <div class="col-md-8">@Model.DataDeschidere.ToString("dd.MM.yyyy")</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 text-muted">Status:</div>
                     <div class="col-md-8">
-                        @if (Model.Activa)
+                        @if (Model.Activ)
                         {
-                            <span class="badge bg-success">Activa</span>
+                            <span class="badge bg-success">Activ</span>
                         }
                         else
                         {
-                            <span class="badge bg-danger">Inactiva</span>
+                            <span class="badge bg-danger">Inactiv</span>
                         }
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Depozite -->
-        <div class="card">
+        <!-- Marfuri -->
+        <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span><i class="fas fa-warehouse me-2"></i>Depozite (@(Model.Depozite?.Count ?? 0))</span>
-                <a href="/Depozit/Create" class="btn btn-sm btn-primary">
-                    <i class="fas fa-plus me-1"></i>Adauga Depozit
+                <span><i class="fas fa-boxes me-2"></i>Marfuri (@(Model.Marfuri?.Count ?? 0))</span>
+                <a href="/Marfa/Create" class="btn btn-sm btn-primary">
+                    <i class="fas fa-plus me-1"></i>Adauga Marfa
                 </a>
             </div>
             <div class="card-body">
-                @if (Model.Depozite?.Any() == true)
+                @if (Model.Marfuri?.Any() == true)
                 {
                     <div class="table-responsive">
                         <table class="table table-hover table-sm">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>SKU</th>
                                     <th>Nume</th>
-                                    <th>Adresa</th>
-                                    <th>Status</th>
+                                    <th>Cantitate</th>
+                                    <th>Localizare</th>
                                     <th>Actiuni</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var depozit in Model.Depozite)
+                                @foreach (var marfa in Model.Marfuri.Take(10))
                                 {
                                     <tr>
-                                        <td><code>@depozit.DepozitId</code></td>
-                                        <td>@depozit.Nume</td>
-                                        <td>@depozit.Adresa</td>
+                                        <td><code>@marfa.SKU</code></td>
+                                        <td>@marfa.Nume</td>
+                                        <td><span class="badge bg-info">@marfa.CantitateCurenta @marfa.UnitateMasura</span></td>
+                                        <td><small>Zona @marfa.Zona, Etaj @marfa.Etaj</small></td>
                                         <td>
-                                            @if (depozit.Activ)
-                                            {
-                                                <span class="badge bg-success">Activ</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="badge bg-danger">Inactiv</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            <a href="/Depozit/Details/@depozit.Id" class="btn btn-sm btn-outline-info">
+                                            <a href="/Marfa/Details/@marfa.Id" class="btn btn-sm btn-outline-info">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
@@ -120,7 +116,7 @@
                 }
                 else
                 {
-                    <p class="text-muted mb-0">Nu exista depozite asociate acestei companii.</p>
+                    <p class="text-muted mb-0">Nu exista marfuri in acest depozit.</p>
                 }
             </div>
         </div>
@@ -129,13 +125,13 @@
     <div class="col-md-4">
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fas fa-chart-pie me-2"></i>Statistici Rapide
+                <i class="fas fa-chart-pie me-2"></i>Statistici
             </div>
             <div class="card-body">
                 <div class="mb-3">
                     <div class="d-flex justify-content-between">
-                        <span>Depozite:</span>
-                        <strong>@(Model.Depozite?.Count ?? 0)</strong>
+                        <span>Marfuri:</span>
+                        <strong>@(Model.Marfuri?.Count ?? 0)</strong>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -153,13 +149,13 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="/Companie/Edit/@Model.Id" class="btn btn-warning">
+                    <a href="/Depozit/Edit/@Model.Id" class="btn btn-warning">
                         <i class="fas fa-edit me-2"></i>Editeaza
                     </a>
-                    <a href="/Depozit/Create" class="btn btn-primary">
-                        <i class="fas fa-plus me-2"></i>Adauga Depozit
+                    <a href="/Marfa/Create" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Adauga Marfa
                     </a>
-                    <a href="/Companie" class="btn btn-secondary">
+                    <a href="/Depozit/Index" class="btn btn-secondary">
                         <i class="fas fa-arrow-left me-2"></i>Inapoi
                     </a>
                 </div>

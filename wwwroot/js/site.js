@@ -53,7 +53,7 @@ function formatNumber(number, decimals = 2) {
 
 // Format currency
 function formatCurrency(amount) {
-    return formatNumber(amount, 2) + ' RON';
+    return formatNumber(amount, 2) + ' MDL';
 }
 
 // Validate form before submit

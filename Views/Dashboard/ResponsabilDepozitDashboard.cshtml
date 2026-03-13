@@ -24,7 +24,7 @@
         <div class="card text-white bg-success">
             <div class="card-body">
                 <h6 class="card-title">Valoare Totala</h6>
-                <h2 class="mb-0">@Model.ValoareTotala.ToString("N0") RON</h2>
+                <h2 class="mb-0">@Model.ValoareTotala.ToString("N0") MDL</h2>
             </div>
         </div>
     </div>
@@ -91,8 +91,8 @@
                         {
                             <tr>
                                 <td><code>@marfa.SKU</code></td>
-                                <td><strong>@marfa.Name</strong></td>
-                                <td><span class="badge bg-info">@marfa.CapacitateCurenta @marfa.UnitateMasura</span></td>
+                                <td><strong>@marfa.Nume</strong></td>
+                                <td><span class="badge bg-info">@marfa.CantitateCurenta @marfa.UnitateMasura</span></td>
                                 <td>
                                     <small>
                                         Zona <strong>@marfa.Zona</strong>,
@@ -100,8 +100,8 @@
                                         Raft <strong>@marfa.Raft-@marfa.Pozitie</strong>
                                     </small>
                                 </td>
-                                <td>@marfa.PretUnitar.ToString("N2") RON</td>
-                                <td><strong>@((marfa.CapacitateCurenta * marfa.PretUnitar).ToString("N2")) RON</strong></td>
+                                <td>@marfa.PretUnitar.ToString("N2") MDL</td>
+                                <td><strong>@((marfa.CantitateCurenta * marfa.PretUnitar).ToString("N2")) MDL</strong></td>
                             </tr>
                         }
                     </tbody>
@@ -157,10 +157,10 @@
                                         <span class="badge bg-info">Transfer</span>
                                     }
                                 </td>
-                                <td>@tranzactie.Marfa.Name</td>
+                                <td>@tranzactie.Marfa.Nume</td>
                                 <td>@tranzactie.Cantitate</td>
                                 <td>@tranzactie.User.NumeComplet</td>
-                                <td>@tranzactie.ValoareTotala.ToString("N2") RON</td>
+                                <td>@tranzactie.ValoareTotala.ToString("N2") MDL</td>
                             </tr>
                         }
                     </tbody>

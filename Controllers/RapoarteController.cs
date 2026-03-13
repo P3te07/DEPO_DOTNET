@@ -38,7 +38,7 @@ namespace Proiect_ASPDOTNET.Controllers
             ViewBag.Depozite = await _context.Depozite.ToListAsync();
             ViewBag.DepozitSelectat = depozitId;
             ViewBag.DataRaport = data ?? DateTime.Now;
-            ViewBag.ValoareTotala = marfuri.Sum(m => m.CapacitateCurenta * m.PretUnitar);
+            ViewBag.ValoareTotala = marfuri.Sum(m => m.CantitateCurenta * m.PretUnitar);
 
             return View(marfuri);
         }

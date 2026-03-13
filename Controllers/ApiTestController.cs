@@ -58,7 +58,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     c.CUI,
                     c.Email,
                     NumarDepozite = c.Depozite.Count,
-                    c.Active
+                    c.Activa
                 })
                 .ToListAsync();
 
@@ -80,7 +80,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     Companie = d.Companie.Nume,
                     d.Latitudine,
                     d.Longitudine,
-                    d.Active
+                    d.Activ
                 })
                 .ToListAsync();
 
@@ -97,12 +97,12 @@ namespace Proiect_ASPDOTNET.Controllers
                 {
                     m.Id,
                     m.MarfaId,
-                    m.Name,
+                    m.Nume,
                     m.SKU,
-                    m.CapacitateCurenta,
+                    m.CantitateCurenta,
                     m.UnitateMasura,
                     m.PretUnitar,
-                    ValoareTotala = m.CapacitateCurenta * m.PretUnitar,
+                    ValoareTotala = m.CantitateCurenta * m.PretUnitar,
                     Depozit = m.Depozit.Nume,
                     Localizare = $"Zona {m.Zona}, Etaj {m.Etaj}, Raft {m.Raft}"
                 })
@@ -127,7 +127,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     t.Id,
                     t.TranzactieId,
                     Tip = t.Tip.ToString(),
-                    Marfa = t.Marfa.Name,
+                    Marfa = t.Marfa.Nume,
                     t.Cantitate,
                     t.ValoareTotala,
                     DepozitSursa = t.DepozitSursa != null ? t.DepozitSursa.Nume : null,
@@ -184,7 +184,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 Telefon = request.Telefon,
                 Email = request.Email,
                 DataInregistrare = DateTime.Now,
-                Active = true
+                Activa = true
             };
 
             _context.Companii.Add(companie);
@@ -210,11 +210,11 @@ namespace Proiect_ASPDOTNET.Controllers
             var marfa = new Marfa
             {
                 MarfaId = IdGenerator.GenerateMarfaId(),
-                Name = request.Nume,
+                Nume = request.Nume,
                 Descriere = request.Descriere,
                 SKU = request.SKU,
                 DepozitId = request.DepozitId,
-                CapacitateCurenta = request.Cantitate,
+                CantitateCurenta = request.Cantitate,
                 UnitateMasura = request.UnitateMasura,
                 PretUnitar = request.PretUnitar,
                 Zona = request.Zona ?? "A",
@@ -234,9 +234,9 @@ namespace Proiect_ASPDOTNET.Controllers
                 {
                     marfa.Id,
                     marfa.MarfaId,
-                    marfa.Name,
+                    marfa.Nume,
                     marfa.SKU,
-                    marfa.CapacitateCurenta
+                    marfa.CantitateCurenta
                 }
             });
         }

@@ -29,7 +29,7 @@ namespace Proiect_ASPDOTNET.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Active")
+                    b.Property<bool>("Activa")
                         .HasColumnType("bit");
 
                     b.Property<string>("Adresa")
@@ -77,7 +77,7 @@ namespace Proiect_ASPDOTNET.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Active")
+                    b.Property<bool>("Activ")
                         .HasColumnType("bit");
 
                     b.Property<string>("Adresa")
@@ -165,7 +165,7 @@ namespace Proiect_ASPDOTNET.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CapacitateCurenta")
+                    b.Property<int>("CantitateCurenta")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataAdaugare")
@@ -189,7 +189,7 @@ namespace Proiect_ASPDOTNET.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nume")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -265,7 +265,7 @@ namespace Proiect_ASPDOTNET.Migrations
                     b.ToTable("Sarcini");
                 });
 
-            modelBuilder.Entity("Proiect_ASPDOTNET.Models.Entities.Tranzactii", b =>
+            modelBuilder.Entity("Proiect_ASPDOTNET.Models.Entities.Tranzactie", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -434,7 +434,7 @@ namespace Proiect_ASPDOTNET.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Proiect_ASPDOTNET.Models.Entities.Tranzactii", b =>
+            modelBuilder.Entity("Proiect_ASPDOTNET.Models.Entities.Tranzactie", b =>
                 {
                     b.HasOne("Proiect_ASPDOTNET.Models.Entities.Depozit", "DepozitDestinatie")
                         .WithMany("TranzactiiDestinatie")

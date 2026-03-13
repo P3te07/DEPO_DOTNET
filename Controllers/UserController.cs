@@ -62,7 +62,7 @@ namespace Proiect_ASPDOTNET.Controllers
 
             if (currentUserRole == UserRole.SuperAdmin)
             {
-                ViewBag.Companii = new SelectList(await _context.Companii.Where(c => c.Active).ToListAsync(), "Id", "Nume");
+                ViewBag.Companii = new SelectList(await _context.Companii.Where(c => c.Activa).ToListAsync(), "Id", "Nume");
             }
             else if (currentUserRole == UserRole.DirectorCompanie)
             {
@@ -298,7 +298,7 @@ namespace Proiect_ASPDOTNET.Controllers
         public async Task<JsonResult> GetDepoziteByCompanie(int companieId)
         {
             var depozite = await _context.Depozite
-                .Where(d => d.CompanieId == companieId && d.Active)
+                .Where(d => d.CompanieId == companieId && d.Activ)
                 .Select(d => new { id = d.Id, nume = d.Nume })
                 .ToListAsync();
 
@@ -309,7 +309,7 @@ namespace Proiect_ASPDOTNET.Controllers
         {
             if (currentUserRole == UserRole.SuperAdmin)
             {
-                ViewBag.Companii = new SelectList(await _context.Companii.Where(c => c.Active).ToListAsync(), "Id", "Nume");
+                ViewBag.Companii = new SelectList(await _context.Companii.Where(c => c.Activa).ToListAsync(), "Id", "Nume");
             }
             else if (currentUserRole == UserRole.DirectorCompanie)
             {
@@ -343,12 +343,12 @@ namespace Proiect_ASPDOTNET.Controllers
         {
             if (currentUserRole == UserRole.SuperAdmin)
             {
-                ViewBag.Companii = new SelectList(await _context.Companii.Where(c => c.Active).ToListAsync(), "Id", "Nume", user.CompanieId);
+                ViewBag.Companii = new SelectList(await _context.Companii.Where(c => c.Activa).ToListAsync(), "Id", "Nume", user.CompanieId);
 
                 if (user.CompanieId.HasValue)
                 {
                     ViewBag.Depozite = new SelectList(
-                        await _context.Depozite.Where(d => d.CompanieId == user.CompanieId && d.Active).ToListAsync(),
+                        await _context.Depozite.Where(d => d.CompanieId == user.CompanieId && d.Activ).ToListAsync(),
                         "Id", "Nume", user.DepozitId);
                 }
             }
@@ -361,7 +361,7 @@ namespace Proiect_ASPDOTNET.Controllers
                 if (user.CompanieId.HasValue)
                 {
                     ViewBag.Depozite = new SelectList(
-                        await _context.Depozite.Where(d => d.CompanieId == user.CompanieId && d.Active).ToListAsync(),
+                        await _context.Depozite.Where(d => d.CompanieId == user.CompanieId && d.Activ).ToListAsync(),
                         "Id", "Nume", user.DepozitId);
                 }
             }

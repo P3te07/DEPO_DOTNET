@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Schimbare Parola";
+}
+
+<div class="mb-4">
+    <h2><i class="fas fa-key me-2"></i>Schimbare Parola</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-lock me-2"></i>Parola Noua
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="parolaVeche" class="form-label">Parola Veche</label>
+                        <input type="password" class="form-control" id="parolaVeche" name="parolaVeche" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="parolaNoua" class="form-label">Parola Noua</label>
+                        <input type="password" class="form-control" id="parolaNoua" name="parolaNoua" required minlength="6">
+                        <small class="text-muted">Minim 6 caractere</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmaParola" class="form-label">Confirma Parola Noua</label>
+                        <input type="password" class="form-control" id="confirmaParola" name="confirmaParola" required>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/Cont/Profil" class="btn btn-secondary">
+                            <i class="fas fa-times me-2"></i>Anuleaza
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Schimba Parola
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h6><i class="fas fa-info-circle me-2"></i>Cerinte Parola</h6>
+                <ul class="small mb-0">
+                    <li>Minim 6 caractere</li>
+                    <li>Foloseste o parola unica</li>
+                    <li>Nu folosi date personale usoare</li>
+                    <li>Schimba parola periodic</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

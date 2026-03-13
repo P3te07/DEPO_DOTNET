@@ -29,7 +29,7 @@
         <div class="card text-white bg-success">
             <div class="card-body">
                 <h6 class="card-title">Valoare Totala Inventar</h6>
-                <h2 class="mb-0">@Model.ValoareTotala.ToString("N0") RON</h2>
+                <h2 class="mb-0">@Model.ValoareTotala.ToString("N0") MDL</h2>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
     
     <script>
         // Initialize map
-        var map = L.map('map').setView([45.9432, 24.9668], 7); // Centered on Romania
+        var map = L.map('map').setView([47.0105, 28.8638], 12); 
         
         // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -92,7 +92,7 @@
                         <h6 class="mb-2"><i class="fas fa-warehouse me-2"></i>${depozit.nume}</h6>
                         <p class="mb-1 small"><i class="fas fa-map-marker-alt me-2"></i>${depozit.adresa}</p>
                         <p class="mb-1 small"><i class="fas fa-boxes me-2"></i>${depozit.marfuri} produse</p>
-                        <p class="mb-0 small"><i class="fas fa-dollar-sign me-2"></i>${depozit.valoare} RON</p>
+                        <p class="mb-0 small"><i class="fas fa-dollar-sign me-2"></i>${depozit.valoare} MDL</p>
                     </div>
                 `);
             markers.push(marker);

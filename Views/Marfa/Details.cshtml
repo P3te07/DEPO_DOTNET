@@ -5,7 +5,7 @@
 }
 
 <div class="mb-4">
-    <h2><i class="fas fa-box me-2"></i>@Model.Name</h2>
+    <h2><i class="fas fa-box me-2"></i>@Model.Nume</h2>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/Marfa">Inventar</a></li>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 text-muted">Nume:</div>
-                    <div class="col-md-8"><strong>@Model.Name</strong></div>
+                    <div class="col-md-8"><strong>@Model.Nume</strong></div>
                 </div>
                 @if (!string.IsNullOrEmpty(Model.Descriere))
                 {
@@ -54,17 +54,17 @@
                 <div class="row mb-3">
                     <div class="col-md-4 text-muted">Cantitate:</div>
                     <div class="col-md-8">
-                        <span class="badge bg-info fs-6">@Model.CapacitateCurenta @Model.UnitateMasura</span>
+                        <span class="badge bg-info fs-6">@Model.CantitateCurenta @Model.UnitateMasura</span>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 text-muted">Pret Unitar:</div>
-                    <div class="col-md-8">@Model.PretUnitar.ToString("N2") RON</div>
+                    <div class="col-md-8">@Model.PretUnitar.ToString("N2") MDL</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4 text-muted">Valoare Totala:</div>
                     <div class="col-md-8">
-                        <strong class="text-success">@((Model.CapacitateCurenta * Model.PretUnitar).ToString("N2")) RON</strong>
+                        <strong class="text-success">@((Model.CantitateCurenta * Model.PretUnitar).ToString("N2")) MDL</strong>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -134,7 +134,7 @@
                                         <td>@(tranzactie.DepozitSursa?.Nume ?? "-")</td>
                                         <td>@(tranzactie.DepozitDestinatie?.Nume ?? "-")</td>
                                         <td>@tranzactie.User?.NumeComplet</td>
-                                        <td>@tranzactie.ValoareTotala.ToString("N2") RON</td>
+                                        <td>@tranzactie.ValoareTotala.ToString("N2") MDL</td>
                                     </tr>
                                 }
                             </tbody>
@@ -158,14 +158,14 @@
                 <div class="mb-3">
                     <small class="text-muted">Stoc Curent:</small>
                     <div class="h3 text-primary mb-0">
-                        @Model.CapacitateCurenta <small>@Model.UnitateMasura</small>
+                        @Model.CantitateCurenta <small>@Model.UnitateMasura</small>
                     </div>
                 </div>
                 <hr>
                 <div class="mb-3">
                     <small class="text-muted">Valoare Stoc:</small>
                     <div class="h4 text-success mb-0">
-                        @((Model.CapacitateCurenta * Model.PretUnitar).ToString("N2")) RON
+                        @((Model.CantitateCurenta * Model.PretUnitar).ToString("N2")) MDL
                     </div>
                 </div>
                 <hr>

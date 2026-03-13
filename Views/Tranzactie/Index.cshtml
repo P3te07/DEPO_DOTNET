@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Tranzactii>
+﻿@model IEnumerable<Proiect_ASPDOTNET.Models.Entities.Tranzactie>
 
 @{
     ViewData["Title"] = "Tranzactii";
@@ -91,7 +91,7 @@
                                     }
                                 </td>
                                 <td>
-                                    <strong>@tranzactie.Marfa.Name</strong>
+                                    <strong>@tranzactie.Marfa.Nume</strong>
                                     <br><small class="text-muted">@tranzactie.Marfa.SKU</small>
                                 </td>
                                 <td>
@@ -100,7 +100,7 @@
                                 <td>@(tranzactie.DepozitSursa?.Nume ?? "-")</td>
                                 <td>@(tranzactie.DepozitDestinatie?.Nume ?? "-")</td>
                                 <td>@tranzactie.User.NumeComplet</td>
-                                <td><strong>@tranzactie.ValoareTotala.ToString("N2") RON</strong></td>
+                                <td><strong>@tranzactie.ValoareTotala.ToString("N2") MDL</strong></td>
                                 <td>
                                     <a href="/Tranzactie/Details/@tranzactie.Id" class="btn btn-sm btn-outline-info">
                                         <i class="fas fa-eye"></i>
@@ -113,7 +113,7 @@
                         <tr class="table-active">
                             <td colspan="8" class="text-end"><strong>TOTAL VALOARE:</strong></td>
                             <td colspan="2">
-                                <strong>@Model.Sum(t => t.ValoareTotala).ToString("N2") RON</strong>
+                                <strong>@Model.Sum(t => t.ValoareTotala).ToString("N2") MDL</strong>
                             </td>
                         </tr>
                     </tfoot>

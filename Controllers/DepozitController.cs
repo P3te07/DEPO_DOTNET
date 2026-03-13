@@ -40,5 +40,7 @@ namespace Proiect_ASPDOTNET.Controllers
 
             return View(depozit);
         }
+
+        
     }
 }
