@@ -41,7 +41,7 @@ namespace Proiect_ASPDOTNET.Data
             {
                 CompanieId = IdGenerator.GenerateCompanieId(),
                 Nume = "Logistica Pro SRL",
-                CUI = "1012345678901",
+                Cod_Inregistrare = "1012345678901",
                 Adresa = "str. Stefan cel Mare 134, Chisinau",
                 Telefon = "022-123-456",
                 Email = "contact@logisticapro.md",
@@ -53,7 +53,7 @@ namespace Proiect_ASPDOTNET.Data
             {
                 CompanieId = IdGenerator.GenerateCompanieId(),
                 Nume = "Transport Moldova SRL",
-                CUI = "1012345678902",
+                Cod_Inregistrare = "1012345678902",
                 Adresa = "bd. Dacia 47/2, Chisinau",
                 Telefon = "022-789-012",
                 Email = "office@transportmd.md",
@@ -65,7 +65,7 @@ namespace Proiect_ASPDOTNET.Data
             {
                 CompanieId = IdGenerator.GenerateCompanieId(),
                 Nume = "Distributie Rapida SRL",
-                CUI = "1012345678903",
+                Cod_Inregistrare = "1012345678903",
                 Adresa = "str. Alba Iulia 23, Balti",
                 Telefon = "0231-45-678",
                 Email = "info@distributie.md",

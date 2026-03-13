@@ -7,7 +7,7 @@ namespace Proiect_ASPDOTNET.Models.Entities
         public int Id { get; set; }
         public string CompanieId { get; set; }
         public string Nume { get; set; }
-        public string CUI { get; set; }
+        public string Cod_Inregistrare { get; set; }
         public string Adresa { get; set; }
         public string Telefon { get; set; }
         public string Email { get; set; }

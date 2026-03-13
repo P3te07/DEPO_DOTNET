@@ -19,7 +19,7 @@ namespace Proiect_ASPDOTNET.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CompanieId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Nume = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    CUI = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cod_Inregistrare = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Adresa = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefon = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),

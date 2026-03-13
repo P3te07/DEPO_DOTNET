@@ -10,9 +10,9 @@ namespace Proiect_ASPDOTNET.Models.ViewModels
         [Display(Name = "Nume Companie")]
         public string Nume { get; set; }
 
-        [Required(ErrorMessage = "CUI-ul este obligatoriu")]
-        [Display(Name = "CUI")]
-        public string CUI { get; set; }
+        [Required(ErrorMessage = "Cod_Inregistrare-ul este obligatoriu")]
+        [Display(Name = "Cod_Inregistrare")]
+        public string Cod_Inregistrare { get; set; }
 
         [Display(Name = "Adresa")]
         public string Adresa { get; set; }

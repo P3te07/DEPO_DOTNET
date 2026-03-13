@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Proiect_ASPDOTNET.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260311194702_InitialCreate")]
+    [Migration("20260313103243_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace Proiect_ASPDOTNET.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CUI")
+                    b.Property<string>("Cod_Inregistrare")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

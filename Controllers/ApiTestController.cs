@@ -55,7 +55,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     c.Id,
                     c.CompanieId,
                     c.Nume,
-                    c.CUI,
+                    c.Cod_Inregistrare,
                     c.Email,
                     NumarDepozite = c.Depozite.Count,
                     c.Activa
@@ -179,7 +179,7 @@ namespace Proiect_ASPDOTNET.Controllers
             {
                 CompanieId = IdGenerator.GenerateCompanieId(),
                 Nume = request.Nume,
-                CUI = request.CUI,
+                Cod_Inregistrare = request.Cod_Inregistrare,
                 Adresa = request.Adresa,
                 Telefon = request.Telefon,
                 Email = request.Email,
@@ -198,7 +198,7 @@ namespace Proiect_ASPDOTNET.Controllers
                     companie.Id,
                     companie.CompanieId,
                     companie.Nume,
-                    companie.CUI
+                    companie.Cod_Inregistrare
                 }
             });
         }
@@ -251,7 +251,7 @@ namespace Proiect_ASPDOTNET.Controllers
         public class CreateCompanieRequest
         {
             public string Nume { get; set; }
-            public string CUI { get; set; }
+            public string Cod_Inregistrare { get; set; }
             public string Adresa { get; set; }
             public string Telefon { get; set; }
             public string Email { get; set; }

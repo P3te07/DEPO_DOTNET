@@ -48,7 +48,7 @@ namespace Proiect_ASPDOTNET.Controllers
             {
                 CompanieId = IdGenerator.GenerateCompanieId(),
                 Nume = model.Nume,
-                CUI = model.CUI,
+                Cod_Inregistrare = model.Cod_Inregistrare,
                 Adresa = model.Adresa,
                 Telefon = model.Telefon,
                 Email = model.Email,

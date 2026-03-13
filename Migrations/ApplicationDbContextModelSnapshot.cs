@@ -36,7 +36,7 @@ namespace Proiect_ASPDOTNET.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CUI")
+                    b.Property<string>("Cod_Inregistrare")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
